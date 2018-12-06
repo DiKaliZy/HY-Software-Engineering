@@ -26,18 +26,12 @@ class Professor:
     #목적 : 학생 정보 추가
     #매개변수 : 학생번호, 학생이름, 학생번호
     def inputStud(studNo, studName, studPhone):
-        if (studNo == None) or (studName == None):
-            # 에러 메시지 출력(메시지 박스 활용)
-        else:
-            Bang.newDataInput(studNo, studName, studPhone)
+        Bang.newDataInput(studNo, studName, studPhone)
 
     #목적 : 학생 정보 수정(교수권한)
     #매개변수 : 학번, 학생이름, 학생번호, 학생팀번호
     def modStudInform(studNo, studName, studPhone, studTeamNo):
-        if studNo == None:
-            # 에러 메시지 출력
-        else:
-            Bang.updateList(studNo, studName, studPhone, studTeamNo)
+        Bang.updateList(studNo, studName, studPhone, studTeamNo)
 
     #목적 : 팀 생성 가능 조건 설정
     #매개변수 : 없음
@@ -45,10 +39,8 @@ class Professor:
         Bang.swithOnOff()
 
     #목적 : 팀 구성 인원 설정
-    #매개변수 : 인원수 조건
+    #매개변수 : 설정할 인원 수
    def setLimit(limit):
-        if limit<0:
-        else:
             Bang.setLimit(limit)
 
     #목적 : 방 생성
