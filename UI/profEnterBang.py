@@ -5,13 +5,14 @@
 # Created by: PyQt5 UI code generator 5.11.3
 #
 # WARNING! All changes made in this file will be lost!
-
+import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-class Ui_Title(object):
-    def setupUi(self, Title):
-        Title.setObjectName("Title")
-        Title.resize(402, 550)
+class view_EnterBang(object):
+
+    def setupUi(self, mainWindow):
+        mainWindow.setObjectName("Title")
+        mainWindow.resize(402, 550)
         self.verticalLayout = QtWidgets.QVBoxLayout(Title)
         self.verticalLayout.setObjectName("verticalLayout")
         self.label = QtWidgets.QLabel(Title)
@@ -51,10 +52,32 @@ class Ui_Title(object):
         self.verticalLayout.addLayout(self.horizontalLayout_2)
 
         self.retranslateUi(Title)
+
+
         #추가 버튼 입력시 새로운 윈도우를 뛰워야 함.
-        self.pushButton.clicked.connect()
+        self.setTableWidgetData()
+        self.pushButton.clicked.connect(self.addButtonClicked)
+        self.pushButton_2.clicked.connect(self.enterButtonClicked(idx))
         self.tableWidget.itemClicked['QTableWidgetItem*'].connect(self.pushButton_2.click)
         QtCore.QMetaObject.connectSlotsByName(Title)
+
+    def setTableWidgetData(self):
+        banglist = display.refreshbang()
+        column_idx = {'num': 0, 'name': 1}
+        for k, v in banglist.item():
+            col = column_idx[k]
+            for row, val in enumerate(v):
+                item = QtWidgets.QTableWidgetItem(val)
+                if col == 2:
+                    item.setTextAlignment(QtCore.Qt.AlignVcenter|QtCore.Qt.AlignRight)
+
+    def addButtonClicked(self):
+        window = view_makebang()
+        window.show()
+
+    def enterBunttonClicked(self, idx):
+        Professor.enterBang(idx)
+        self.close()
 
     def retranslateUi(self, Title):
         _translate = QtCore.QCoreApplication.translate
@@ -74,8 +97,8 @@ class Ui_Title(object):
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    Title = QtWidgets.QDialog()
-    ui = Ui_Title()
+    Title = view_EnterBang()
+    ui = view_EnterBang()
     ui.setupUi(Title)
     Title.show()
     sys.exit(app.exec_())
