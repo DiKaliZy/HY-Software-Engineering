@@ -107,13 +107,13 @@ class Bang:
 
     """
         - 목적 : 팀 구성 on/off 및 현재 switch상태 확인
-        - 매개변수 : 없음
+        - 매개변수 : me(id번호) : Iteger
         - 반환 값 : 없음
         - 변경 이력 : 박근태, 2018.12.05
         """
-    def switchOnOff(self):
+    def switchOnOff(self, me):
         self.switchStat = self.teamorg.setSwitch()
-
+        self.displayObj[me].refreshBang()
     """
         - 목적 : 팀 구성 limit 설정
         - 매개변수 : limit(제한 인원 수): Integer
@@ -140,6 +140,15 @@ class Bang:
         """
     def getSubjName(self):
         return self.subjName
+
+    """
+        - 목적 : bangNo 반환
+        - 매개변수 : 없음
+        - 반환 값 : bangNo(방번호): Integer
+        - 변경 이력 : 박근태, 2018.12.06
+        """
+    def getBangNo(self):
+        return self.bangNo
 
     """
         - 목적 : 로그인, 방 입장 처리

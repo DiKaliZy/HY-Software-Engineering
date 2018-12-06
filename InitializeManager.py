@@ -155,6 +155,6 @@ class InitalizeManager:
     def throwBangList(self,id):
         bangList = []
         for bangs in self.bang:
-            if bangs.getOwnerID == id:
-                bangList.append(bangs)
+            if self.bang[bangs].getOwnerID == id:
+                bangList.append(self.bang[bangs])
         return bangList
