@@ -29,6 +29,8 @@ class Ui_MainWindow(object):
         self.pushButton_3 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_3.setGeometry(QtCore.QRect(360, 10, 75, 23))
         self.pushButton_3.setObjectName("ON/OFF")
+        self.pushButton_3.setCheckable(True)
+        self.label
         self.tableWidget = QtWidgets.QTableWidget(self.centralwidget)
         self.tableWidget.setGeometry(QtCore.QRect(9, 40, 431, 381))
         self.tableWidget.setObjectName("명단 리스트")
@@ -54,6 +56,10 @@ class Ui_MainWindow(object):
         self.pushButton_5 = QtWidgets.QPushButton(self.horizontalLayoutWidget_2)
         self.pushButton_5.setObjectName("삭제")
         self.horizontalLayout_2.addWidget(self.pushButton_5)
+        self.label = QtWidgets.QLabel(self.centralwidget)
+        self.label.setGeometry(QtCore.QRect(380, 10, 101, 21))
+        self.label.setAlignment(QtCore.Qt.AlignCenter)
+        self.label.setObjectName("label")
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
@@ -65,7 +71,7 @@ class Ui_MainWindow(object):
         #설정 버튼 클릭 시 setButtonClicked 함수 호출
         self.pushButton_2.clicked.connect(self.setButtonClicked)
         #ON/OFF 버튼 클릭 시 switButtonClicked 함수 호출
-        self.pushButton_3.clicked.connect(self.switButtonClicked)
+        self.pushButton_3.toggled.connect(self.switButtonClicked)
         #수정 버튼 클릭 시 modButtonClicked 함수 호출
         self.pushButton_4.clicked.connect(self.modButtonClicked)
         #삭제 버튼 클릭 시 delButtonClicked 함수 호출
@@ -75,19 +81,24 @@ class Ui_MainWindow(object):
 
     #목적 : 새로운 학생을 리스트에 추가하기 위한 추가 인터페이스를 띄우도록 요청한다.
     def addButtonClicked(self):
+        self.close()
 
     #목적 : 팀 조건을 바꾸기 위해 팀 조건 설정 인터페이스를 띄우도록 요청한다.
     def setButtonClicked(self):
+        self.close()
 
-    #목적 : 팀 조건 가능 여부를 바꾸기 위해 팀 조건 설정 함수를 요청헌다.
+    #목적 : 팀 구성 가능 여부를 바꾼다.
     def switButtonClicked(self):
-        Bang.switchOper()
+        Professor.swtichOper()
+        state = display.switchOnOff()
+        self.label.setText(state)
 
     #목적 : 학생 정보를 수정하기 위한 인터페이스를 띄우도록 요청한다.
     def modButtonClicked(self):
-
+        self.close()
     #목적 : 학생 정보를 삭제하기 위한 인터페이스를 띄우도록 요청한다.
     def delButtonClicked(self):
+        self.close()
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
