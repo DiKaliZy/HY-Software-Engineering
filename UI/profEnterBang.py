@@ -92,13 +92,12 @@ class view_EnterBang(object):
         self.pushButton_2.setAccessibleName(_translate("Title", "EnterBang_Button"))
         self.pushButton_2.setText(_translate("Title", "입장"))
 
-
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
     Title = view_EnterBang()
     ui = view_EnterBang()
-    ui.setupUi(Title)
+    ui.setupUi()
     Title.show()
     sys.exit(app.exec_())
 

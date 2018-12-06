@@ -36,7 +36,7 @@ class view_studMainWindow(object):
         to = self.tableWidget.itemClicked(1)
         self.retranslateUi(MainWindow)
         # 탈퇴 버튼 클릭 시 팀 탈퇴 기능을 수행
-        self.pushButton.clicked.connect(self.quitButtonClicked)
+        self.pushButton.clicked.connect(self.quitButtonClicked(to))
 
         # 정보수정 버튼 클릭 시 정보 수정 인터페이스 및 함수 호출
         self.pushButton_2.clicked.connect(self.modButtonClicked)
@@ -47,8 +47,8 @@ class view_studMainWindow(object):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     # 목적: 팀을 탈퇴하기 위한 함수 실행을 요청
-    def quitButtonClicked(self):
-        student.quitTeam()
+    def quitButtonClicked(self, to):
+        student.quitTeam(to)
 
     # 목적 : 정보를 수정하기 위한 인터페이스를 띄운다.
     def modButtonClicked(self):

@@ -6,6 +6,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 목적 : 에러 메시지 화면 출력
 개정 이력 :
 '''
+
 class view_ErrorMsg(object):
     def setupUi(self, Error):
         Error.setObjectName("Error")

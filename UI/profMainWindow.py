@@ -63,6 +63,8 @@ class view_ProfMainWindow(object):
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
 
+        id = self.tableWidget.itemClicked(0)
+
         self.retranslateUi(MainWindow)
         #추가 버튼 클릭 시 addButtonClicked 함수 호출
         self.pushButton.clicked.connect(self.addButtonClicked)
@@ -73,7 +75,7 @@ class view_ProfMainWindow(object):
         #수정 버튼 클릭 시 modButtonClicked 함수 호출
         self.pushButton_4.clicked.connect(self.modButtonClicked)
         #삭제 버튼 클릭 시 delButtonClicked 함수 호출
-        self.pushButton_5.clicked.connect(self.delButtonClicked)
+        self.pushButton_5.clicked.connect(self.delButtonClicked(id))
         self.tableWidget.activated['QModelIndex'].connect(self.tableWidget.update)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
@@ -95,10 +97,12 @@ class view_ProfMainWindow(object):
 
     #목적 : 학생 정보를 수정하기 위한 인터페이스를 띄우도록 요청한다.
     def modButtonClicked(self):
-        self.close()
+        window = view_profModInfo()
+        window.show()
+
     #목적 : 학생 정보를 삭제하기 위한 인터페이스를 띄우도록 요청한다.
-    def delButtonClicked(self):
-        self.close()
+    def delButtonClicked(self, id):
+        professor.deleteStud(id)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -122,7 +126,6 @@ class view_ProfMainWindow(object):
         self.pushButton_4.setText(_translate("MainWindow", "수정"))
         self.pushButton_5.setAccessibleName(_translate("MainWindow", "delButton"))
         self.pushButton_5.setText(_translate("MainWindow", "삭제"))
-
 
 if __name__ == "__main__":
     import sys

@@ -6,6 +6,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 목적 : 메시지 생성화면 출력
 개정 이력 :
 '''
+
 class view_Message(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
@@ -34,11 +35,19 @@ class view_Message(object):
 
         self.retranslateUi(Dialog)
 
-        # 승락 버튼 클릭 시 positive메서드 호출
-        self.pushButton.clicked.connect(stud.positive(from))
-        # 거절 버튼 클릭 시 negative메서드 호출
-        self.pushButton_2.clicked.connect(stud.negative(from))
+        name, code, to = display.
+
+        # 승락 버튼 클릭 시 positive 메서드 호출
+        self.pushButton.clicked.connect(self.posClicked(to))
+        # 거절 버튼 클릭 시 negative 메서드 호출
+        self.pushButton_2.clicked.connect(self.negClicked(to))
         QtCore.QMetaObject.connectSlotsByName(Dialog)
+
+    def posClicked(self, to):
+        student.positive(to)
+
+    def negClicked(self, to):
+        student.negative(to)
 
     #목적 : 메시지의 내용을 설정한다.
     def setMessage(self, context):
@@ -53,7 +62,6 @@ class view_Message(object):
         self.pushButton.setText(_translate("Dialog", "승락"))
         self.pushButton_2.setAccessibleName(_translate("Dialog", "negative_button"))
         self.pushButton_2.setText(_translate("Dialog", "거절"))
-
 
 if __name__ == "__main__":
     import sys
