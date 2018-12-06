@@ -30,7 +30,6 @@ class view_ProfMainWindow(object):
         self.pushButton_3.setGeometry(QtCore.QRect(360, 10, 75, 23))
         self.pushButton_3.setObjectName("ON/OFF")
         self.pushButton_3.setCheckable(True)
-        self.label
         self.tableWidget = QtWidgets.QTableWidget(self.centralwidget)
         self.tableWidget.setGeometry(QtCore.QRect(9, 40, 431, 381))
         self.tableWidget.setObjectName("명단 리스트")
@@ -81,11 +80,13 @@ class view_ProfMainWindow(object):
 
     #목적 : 새로운 학생을 리스트에 추가하기 위한 추가 인터페이스를 띄우도록 요청한다.
     def addButtonClicked(self):
-        self.close()
+        window = view_addStudent()
+        window.show()
 
     #목적 : 팀 조건을 바꾸기 위해 팀 조건 설정 인터페이스를 띄우도록 요청한다.
     def setButtonClicked(self):
-        self.close()
+        window = view_TeamSetting()
+        window.show()
 
     #목적 : 팀 구성 가능 여부를 바꾼다.
     def switButtonClicked(self):

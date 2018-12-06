@@ -36,13 +36,15 @@ class view_Message(object):
 
         self.retranslateUi(Dialog)
 
-        #from =
-
         # 승락 버튼 클릭 시 positive메서드 호출
         self.pushButton.clicked.connect(stud.positive(from))
         # 거절 버튼 클릭 시 negative메서드 호출
         self.pushButton_2.clicked.connect(stud.negative(from))
         QtCore.QMetaObject.connectSlotsByName(Dialog)
+
+    #목적 : 메시지의 내용을 설정한다.
+    def setMessage(self, context):
+        self.label.setText(context)
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate

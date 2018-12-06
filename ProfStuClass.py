@@ -58,7 +58,6 @@ class Professor:
     def makeRandomTeam():
         Bang.randomTeamMake()
 
-
 '''
     최초 작성자 : 이영찬
     최초 작성일 : 2018.11.29

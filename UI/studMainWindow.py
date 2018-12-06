@@ -8,7 +8,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-class Ui_MainWindow(object):
+class view_studMainWindow(object):
     def setupUi(self, Mainwindow):
         Mainwindow.setObjectName("Dialog")
         Mainwindow.resize(423, 411)
@@ -35,26 +35,31 @@ class Ui_MainWindow(object):
         self.pushButton_3.setGeometry(QtCore.QRect(320, 70, 75, 23))
         self.pushButton_3.setObjectName("신청")
 
-        self.retranslateUi(Dialog)
-
+        to = self.tableWidget.itemClicked(1)
+        self.retranslateUi(MainWindow)
         # 탈퇴 버튼 클릭 시 팀 탈퇴 기능을 수행
         self.pushButton.clicked.connect(self.quitButtonClicked)
+
         # 정보수정 버튼 클릭 시 정보 수정 인터페이스 및 함수 호출
         self.pushButton_2.clicked.connect(self.modButtonClicked)
-        #
-        self.pushButton_3.clicked.connect(self.joinButtonClicked)
+
+        # 신청 버튼 클릭 시 해당 학생에게 가입 요청 메시지를 전달
+        self.pushButton_3.clicked.connect(self.joinButtonClicked(to))
         self.tableWidget.activated['QModelIndex'].connect(self.tableWidget.update)
-        QtCore.QMetaObject.connectSlotsByName(Dialog)
+        QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     # 목적: 팀을 탈퇴하기 위한 함수 실행을 요청
     def quitButtonClicked(self):
         student.quitTeam()
+
     # 목적 : 정보를 수정하기 위한 인터페이스를 띄운다.
     def modButtonClicked(self):
         window = studModInfo()
         window.show()
+
     # 목적 : 원하는 사람에게 팀 가입 신청 메시지를 보낸다.
-    def joinButtonClicked(self):
+    def joinButtonClicked(self, to):
+        student.wantJoin(to)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -73,13 +78,12 @@ class Ui_MainWindow(object):
         self.pushButton_3.setAccessibleName(_translate("MainWindow", "join_Button"))
         self.pushButton_3.setText(_translate("MainWindow", "신청"))
 
-
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    Dialog = QtWidgets.QDMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(Mainwindow)
-    Dialog.show()
+    MainWindow = QtWidgets.QMainWindow()
+    ui = view_studMainWindow()
+    ui.setupUi(MainWindow)
+    MainWindow.show()
     sys.exit(app.exec_())
 

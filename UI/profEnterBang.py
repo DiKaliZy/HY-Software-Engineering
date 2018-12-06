@@ -53,7 +53,7 @@ class view_EnterBang(object):
 
         self.retranslateUi(Title)
 
-
+        idx=self.tableWidget.itemClicked(0)
 
         self.setTableWidgetData()
         # 추가 버튼 입력시 새로운 윈도우를 뛰워야 함.

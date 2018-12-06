@@ -30,6 +30,10 @@ class view_ErrorMsg(object):
         self.pushButton.clicked.connect(Error.accept)
         QtCore.QMetaObject.connectSlotsByName(Error)
 
+    #목적 : 메시지의 내용을 설정한다.
+    def setMessage(self, context):
+        self.label.setText(context)
+
     def retranslateUi(self, Error):
         _translate = QtCore.QCoreApplication.translate
         Error.setWindowTitle(_translate("Error", "Warning!"))
