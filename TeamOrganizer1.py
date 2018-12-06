@@ -11,7 +11,7 @@ class TeamActivity:
 		self._to = i_to
 		self._type = i_type
 
-	
+
 
 class Team:
 	def __init__(self. i_leaderNo, i_number_o_Person, i_teamMemberNo, i_teamNo)
