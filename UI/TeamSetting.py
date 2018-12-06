@@ -1,12 +1,12 @@
-# -*- coding: utf-8 -*-
-
-# Form implementation generated from reading ui file 'Teamsetting.ui'
-#
-# Created by: PyQt5 UI code generator 5.11.3
-#
-# WARNING! All changes made in this file will be lost!
-
 from PyQt5 import QtCore, QtGui, QtWidgets
+
+'''
+최초작성자 : 이영찬
+최초작성일 : 2018.11.29
+최초변경일 :
+목적 : 교수의 팀 조건 설정 인터페이스
+개정이력:
+'''
 
 class view_TeamSetting(object):
     def setupUi(self, Dialog):

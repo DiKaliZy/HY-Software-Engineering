@@ -1,13 +1,11 @@
-# -*- coding: utf-8 -*-
-
-# Form implementation generated from reading ui file 'studMainWindow.ui'
-#
-# Created by: PyQt5 UI code generator 5.11.3
-#
-# WARNING! All changes made in this file will be lost!
-
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+'''
+최초작성자 : 이영찬
+최초작성일 : 2018.11.29
+최초변경일 :
+목적 : 학생의 로그인 이후 화면
+개정이력:
+'''
 class view_studMainWindow(object):
     def setupUi(self, Mainwindow):
         Mainwindow.setObjectName("Dialog")

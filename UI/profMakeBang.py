@@ -1,21 +1,22 @@
-# -*- coding: utf-8 -*-
-
-# Form implementation generated from reading ui file 'profMakeBang.ui'
-#
-# Created by: PyQt5 UI code generator 5.11.3
-#
-# WARNING! All changes made in this file will be lost!
-
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
+'''
+최초작성자 : 이영찬
+최초작성일 : 2018.11.29
+최초변경일 :
+목적 : 교수의 새로운 방 생성
+개정이력:
+'''
+
 class view_makebang(object):
-    def setupUi(self, Software_Engineering):
-        Software_Engineering.setObjectName("Software_Engineering")
-        Software_Engineering.resize(400, 296)
-        self.pushButton_3 = QtWidgets.QPushButton(Software_Engineering)
+    def setupUi(self, makeBang):
+        makeBang.setObjectName("Software_Engineering")
+        makeBang.resize(400, 296)
+        self.pushButton_3 = QtWidgets.QPushButton(makeBang)
         self.pushButton_3.setGeometry(QtCore.QRect(270, 170, 121, 31))
         self.pushButton_3.setObjectName("찾아보기")
-        self.horizontalLayoutWidget = QtWidgets.QWidget(Software_Engineering)
+        self.horizontalLayoutWidget = QtWidgets.QWidget(makeBang)
         self.horizontalLayoutWidget.setGeometry(QtCore.QRect(0, 210, 391, 80))
         self.horizontalLayoutWidget.setObjectName("horizontalLayoutWidget")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.horizontalLayoutWidget)
@@ -27,7 +28,7 @@ class view_makebang(object):
         self.pushButton_2 = QtWidgets.QPushButton(self.horizontalLayoutWidget)
         self.pushButton_2.setObjectName("취소")
         self.horizontalLayout.addWidget(self.pushButton_2)
-        self.verticalLayoutWidget_2 = QtWidgets.QWidget(Software_Engineering)
+        self.verticalLayoutWidget_2 = QtWidgets.QWidget(makeBang)
         self.verticalLayoutWidget_2.setGeometry(QtCore.QRect(140, 70, 251, 101))
         self.verticalLayoutWidget_2.setObjectName("verticalLayoutWidget_2")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_2)
@@ -39,7 +40,7 @@ class view_makebang(object):
         self.lineEdit_2 = QtWidgets.QLineEdit(self.verticalLayoutWidget_2)
         self.lineEdit_2.setObjectName("명단파일 주소")
         self.verticalLayout_2.addWidget(self.lineEdit_2)
-        self.verticalLayoutWidget = QtWidgets.QWidget(Software_Engineering)
+        self.verticalLayoutWidget = QtWidgets.QWidget(makeBang)
         self.verticalLayoutWidget.setGeometry(QtCore.QRect(10, 20, 125, 151))
         self.verticalLayoutWidget.setObjectName("verticalLayoutWidget")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.verticalLayoutWidget)
@@ -79,15 +80,19 @@ class view_makebang(object):
         file = self.lineEdit_2.text()
         name = self.lineEdit.text()
 
-        self.retranslateUi(Software_Engineering)
-        self.pushButton.clicked.connect(Professor.makeBang(file, name))
-        self.pushButton_2.clicked.connect(Software_Engineering.reject)
+        self.retranslateUi(makeBang)
+        self.pushButton.clicked.connect(self.okayButtonClicked(file, name))
+        self.pushButton_2.clicked.connect(makeBang.reject)
         self.pushButton_3.clicked.connect(self.findButtonClicked)
-        QtCore.QMetaObject.connectSlotsByName(Software_Engineering)
+        QtCore.QMetaObject.connectSlotsByName(makeBang)
+
+    def okayButtonClicked(self, file, name):
+        Professor.makeBang(file, name)
+        self.close()
 
     #목적 : 방 DB 파일 path를 가져옴
     def findButtonClicked(self):
-        fname = QFileDialog.getOpenFileName(self)
+        fname = QtWidgets.QFileDialog.getOpenFileName(self)
         self.lineEdit_2.setText(fname[0])
 
     def retranslateUi(self, Software_Engineering):

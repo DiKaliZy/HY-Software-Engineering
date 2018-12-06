@@ -1,6 +1,11 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-
-#목적 : 교수의 학생 추가시 제공할 인터페이스 구현
+'''
+최초작성자 : 이영찬
+최초작성일 : 2018.11.29
+최초변경일 :
+목적 : 교수의 학생 추가시 제공할 인터페이스 구현
+개정 이력 :
+'''
 class view_profAddInfo(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")

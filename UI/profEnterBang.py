@@ -1,15 +1,13 @@
-# -*- coding: utf-8 -*-
-
-# Form implementation generated from reading ui file 'profEnterBang.ui'
-#
-# Created by: PyQt5 UI code generator 5.11.3
-#
-# WARNING! All changes made in this file will be lost!
-import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+'''
+최초작성자 : 이영찬
+최초작성일 : 2018.11.29
+최초변경일 :
+목적 : 교수의 방 입장
+개정이력:
+'''
 class view_EnterBang(object):
-
     def setupUi(self, mainWindow):
         mainWindow.setObjectName("Title")
         mainWindow.resize(402, 550)
