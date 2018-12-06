@@ -31,13 +31,15 @@ class view_EnterBang(object):
         self.tableWidget.setFont(font)
         self.tableWidget.setObjectName("tableWidget")
         self.tableWidget.setColumnCount(2)
-        self.tableWidget.setRowCount(0)
+        self.tableWidget.setRowCount(10)
         item = QtWidgets.QTableWidgetItem()
         item.setTextAlignment(QtCore.Qt.AlignCenter)
         self.tableWidget.setHorizontalHeaderItem(0, item)
+        item.setFlags(QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled)
         item = QtWidgets.QTableWidgetItem()
         item.setTextAlignment(QtCore.Qt.AlignCenter)
         self.tableWidget.setHorizontalHeaderItem(1, item)
+        item.setFlags(QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled)
         self.verticalLayout.addWidget(self.tableWidget)
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
@@ -49,9 +51,9 @@ class view_EnterBang(object):
         self.horizontalLayout_2.addWidget(self.pushButton_2)
         self.verticalLayout.addLayout(self.horizontalLayout_2)
 
-        self.retranslateUi(Title)
+        self.retranslateUi(mainWindow)
 
-        idx=self.tableWidget.itemClicked(0)
+        idx=self.tableWidget.itemClicked()
 
         self.setTableWidgetData()
         # 추가 버튼 입력시 새로운 윈도우를 뛰워야 함.
@@ -62,13 +64,18 @@ class view_EnterBang(object):
 
     def setTableWidgetData(self):
         banglist = display.refreshbang()
-        column_idx = {'num': 0, 'name': 1}
-        for k, v in banglist.item():
+        column_idx = {'방 번호': 0, '수업이름': 1}
+        for k, v in banglist.items():
             col = column_idx[k]
             for row, val in enumerate(v):
                 item = QtWidgets.QTableWidgetItem(val)
-                if col == 2:
+                if col == 1:
                     item.setTextAlignment(QtCore.Qt.AlignVcenter|QtCore.Qt.AlignRight)
+
+                self.tableWidget.setItem(row, col, item)
+
+        self.tableWidget.resizeColumnsToContents()
+        self.tableWidget.resizeRowsToContents()
 
     def addButtonClicked(self):
         window = view_makebang()

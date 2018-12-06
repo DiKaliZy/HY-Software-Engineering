@@ -32,16 +32,23 @@ class view_ProfMainWindow(object):
         self.tableWidget = QtWidgets.QTableWidget(self.centralwidget)
         self.tableWidget.setGeometry(QtCore.QRect(9, 40, 431, 381))
         self.tableWidget.setObjectName("명단 리스트")
-        self.tableWidget.setColumnCount(5)
-        self.tableWidget.setRowCount(0)
+        self.tableWidget.setColumnCount(6)
+        self.tableWidget.setRowCount(50)
         item = QtWidgets.QTableWidgetItem()
         self.tableWidget.setHorizontalHeaderItem(0, item)
+        item.setFlags(QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled)
         item = QtWidgets.QTableWidgetItem()
         self.tableWidget.setHorizontalHeaderItem(1, item)
+        item.setFlags(QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled)
         item = QtWidgets.QTableWidgetItem()
         self.tableWidget.setHorizontalHeaderItem(2, item)
+        item.setFlags(QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled)
         item = QtWidgets.QTableWidgetItem()
         self.tableWidget.setHorizontalHeaderItem(3, item)
+        item.setFlags(QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled)
+        item = QtWidgets.QTableWidgetItem()
+        self.tableWidget.setHorizontalHeaderItem(4, item)
+        item.setFlags(QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled)
         self.horizontalLayoutWidget_2 = QtWidgets.QWidget(self.centralwidget)
         self.horizontalLayoutWidget_2.setGeometry(QtCore.QRect(410, 40, 151, 31))
         self.horizontalLayoutWidget_2.setObjectName("horizontalLayoutWidget_2")
@@ -63,7 +70,8 @@ class view_ProfMainWindow(object):
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
 
-        id = self.tableWidget.itemClicked(0)
+        self.setTableWidgetData()
+        id = self.tableWidget.itemClicked()
 
         self.retranslateUi(MainWindow)
         #추가 버튼 클릭 시 addButtonClicked 함수 호출
@@ -78,6 +86,24 @@ class view_ProfMainWindow(object):
         self.pushButton_5.clicked.connect(self.delButtonClicked(id))
         self.tableWidget.activated['QModelIndex'].connect(self.tableWidget.update)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+    #목적 : 테이블의 내용을 채운다.
+    def setTableWidgetData(self):
+        list = display.
+        column_idx = {'학번': 0, '이름': 1, '연락처':2, '팀번호':3}
+        for k, v in list.items():
+            col = column_idx[k]
+            for row, val in enumerate(v):
+                item = QtWidgets.QTableWidgetItem(val)
+                if col == 3:
+                    item.setTextAlignment(QtCore.Qt.AlignVcenter | QtCore.Qt.AlignRight)
+
+                self.tableWidget.setItem(row, col, item)
+                self.tableWidget.setSortingEnabled(True)
+
+        self.tableWidget.resizeColumnsToContents()
+        self.tableWidget.resizeRowsToContents()
+
 
     #목적 : 새로운 학생을 리스트에 추가하기 위한 추가 인터페이스를 띄우도록 요청한다.
     def addButtonClicked(self):
