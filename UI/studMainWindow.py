@@ -48,10 +48,11 @@ class Ui_MainWindow(object):
 
     # 목적: 팀을 탈퇴하기 위한 함수 실행을 요청
     def quitButtonClicked(self):
-
+        student.quitTeam()
     # 목적 : 정보를 수정하기 위한 인터페이스를 띄운다.
     def modButtonClicked(self):
-
+        window = studModInfo()
+        window.show()
     # 목적 : 원하는 사람에게 팀 가입 신청 메시지를 보낸다.
     def joinButtonClicked(self):
 

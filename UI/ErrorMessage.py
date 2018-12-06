@@ -6,7 +6,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 목적 : 에러 메시지 생성
 개정 이력 :
 '''
-class errorMsg(object):
+class view_ErrorMsg(object):
     def setupUi(self, Error):
         Error.setObjectName("Error")
         Error.resize(457, 138)
@@ -42,7 +42,7 @@ if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
     Error = QtWidgets.QDialog()
-    ui = errorMsg()
+    ui = view_ErrorMsg()
     ui.setupUi(Error)
     Error.show()
     sys.exit(app.exec_())

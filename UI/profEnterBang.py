@@ -54,8 +54,9 @@ class view_EnterBang(object):
         self.retranslateUi(Title)
 
 
-        #추가 버튼 입력시 새로운 윈도우를 뛰워야 함.
+
         self.setTableWidgetData()
+        # 추가 버튼 입력시 새로운 윈도우를 뛰워야 함.
         self.pushButton.clicked.connect(self.addButtonClicked)
         self.pushButton_2.clicked.connect(self.enterButtonClicked(idx))
         self.tableWidget.itemClicked['QTableWidgetItem*'].connect(self.pushButton_2.click)
