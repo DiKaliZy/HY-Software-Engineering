@@ -72,6 +72,10 @@ class Bang:
             disp = self.__ordering()
             for dis in self.displayObj:
                 self.displayObj[dis].refreshBang(disp)
+            self.teamorg.removeteam()
+            for id in self.studentInfoList:
+                self.teamorg.loadTeam(self.studentInfoList[id].studentNo,self.studentInfoList[id].studentTeamNo,\
+                                      self.studentInfoList[id].studentUniqueNo)
 
     """
         - 목적 : 정보 수정
@@ -100,7 +104,10 @@ class Bang:
         - 변경 이력 : 박근태, 2018.12.05
         """
     def updateTeam(self,studNo, studTeamNo):
-        self.studentInfoList[studNo].studentTeamNo = studTeamNo
+        if studTeamNo != 0:
+            self.studentInfoList[studNo].studentTeamNo = studTeamNo
+        else:
+            self.studentInfoList[studNo].studentTeamNo = self.studentInfoList[studNo].studentUniqueNo
         disp = self.__ordering()
         for dis in self.displayObj:
             self.displayObj[dis].refreshBang(disp)
@@ -193,9 +200,6 @@ class Bang:
             #가입신청 메시지
             if message == 1:
                 self.displayObj[to].messageSend(1)
-            #수락 메시지
-            elif message == 2:
-                self.displayObj[to].messageSend(2)
             #거절 메시지
             elif message == 3:
                 self.displayObj[to].messageSend(3)
