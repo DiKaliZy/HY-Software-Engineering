@@ -34,10 +34,9 @@ class errorMsg(object):
         _translate = QtCore.QCoreApplication.translate
         Error.setWindowTitle(_translate("Error", "Warning!"))
         self.label.setAccessibleName(_translate("Error", "errmsg"))
-        self.label.setText(_translate("Error", "에러 메시지가 출력되었습니다."))
+        self.label.setText(_translate("Error", "에러 메시지"))
         self.pushButton.setAccessibleName(_translate("Error", "okay_button"))
         self.pushButton.setText(_translate("Error", "확인"))
-
 
 if __name__ == "__main__":
     import sys
@@ -47,4 +46,3 @@ if __name__ == "__main__":
     ui.setupUi(Error)
     Error.show()
     sys.exit(app.exec_())
-
