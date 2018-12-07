@@ -23,7 +23,7 @@ class Bang:
         self.bangNo = bangNo
         self.bangOwnerID = bangOwnerID
         self.subjName = subjName
-        self.teamorg = TeamOrganizer()
+        self.teamorg = TeamOrganizer.TeamOrganizer(self)
         for input in inputList:
             stud = StudentInfo(input[0],input[1],input[2],input[3],input[4])
             self.studentInfoList[input[0]] = stud
@@ -72,10 +72,9 @@ class Bang:
             disp = self.__ordering()
             for dis in self.displayObj:
                 self.displayObj[dis].refreshBang(disp)
-            self.teamorg.removeteam()
+            self.teamorg.removeTeam()
             for id in self.studentInfoList:
-                self.teamorg.loadTeam(self.studentInfoList[id].studentNo,self.studentInfoList[id].studentTeamNo,\
-                                      self.studentInfoList[id].studentUniqueNo)
+                self.teamorg.loadTeam(self.studentInfoList)
 
     """
         - 목적 : 정보 수정

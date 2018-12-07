@@ -13,7 +13,7 @@ import Display
 class Client:
     def __init__(self,managerObj):
         self.obj = managerObj
-        self.display = Display()
+        self.display = Display.Display()
 
     """
     - 목적 : 로그인 수행
@@ -27,7 +27,7 @@ class Client:
             isRight = self.obj.studCheck(id, name, bang)
             if isRight == True:
                 #생성자 변동 -> self.display를 parameter로 받음 추가
-                student = Student(id, bang, self.display, self.obj)
+                student = Student.Student(id, bang, self.display, self.obj)
                 self.me = student
             else:
                 self.display.messageSend(0,0)
@@ -36,7 +36,7 @@ class Client:
             isRight = self.obj.profCheck(id, name)
             if isRight == True:
                 # 생성자 변동 -> self.display를 parameter로 받음 추가
-                professor = Professor(id, self.display, self.obj)
+                professor = Professor.Professor(id, self.display, self.obj)
                 self.me = professor
             else:
                 self.display.messageSend(0, 0)

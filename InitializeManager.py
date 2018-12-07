@@ -8,7 +8,7 @@ import Bang
 - 개정 이력 : 박근태, 2018.12.05
 """
 
-class InitalizeManager:
+class InitializeManager:
     bang = {}
     prof = {}
 
@@ -40,7 +40,7 @@ class InitalizeManager:
             #studenNo, studentName, studentPhone
             inputList = [data[0], data[1], data[2], teamNo, teamNo]
             teamNo += 1
-            bang = Bang(bangNo,bangOwnerID,subjName,inputList)
+            bang = Bang.Bang(bangNo,bangOwnerID,subjName,inputList)
             self.bang[bangNo] = bang
         self.__saveList()
 
@@ -77,7 +77,7 @@ class InitalizeManager:
                     break
                 be = be.split()
                 inputList.append(be)
-            bang = Bang(bangNo,bangOwnerID,subjName,inputList)
+            bang = Bang.Bang(bangNo,bangOwnerID,subjName,inputList)
             self.bang[bangNo] = bang
             bf.close()
         f.close()
