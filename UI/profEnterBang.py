@@ -3,9 +3,9 @@ from UI import *
 '''
 최초작성자 : 이영찬
 최초작성일 : 2018.11.29
-최초변경일 :
+최초변경일 : 2018.12.06
 목적 : 교수의 방 입장
-개정이력:
+개정이력 : 이영찬, 2018.12.06
 '''
 class view_EnterBang(object):
     def __init__(self, bangList, prof):

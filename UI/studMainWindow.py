@@ -1,11 +1,11 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from UI import studModInfo
 '''
-최초작성자 : 이영찬
-최초작성일 : 2018.11.29
-최초변경일 :
-목적 : 학생의 로그인 이후 화면
-개정이력:
+- 최초작성자 : 이영찬
+- 최초작성일 : 2018.11.29
+- 최초변경일 : 2018.12.06
+- 목적 : 학생의 로그인 이후 화면
+- 개정이력 : 이영찬, 2018.12.06
 '''
 class view_studMainWindow(object):
     def __init__(self, InfoList, stud):

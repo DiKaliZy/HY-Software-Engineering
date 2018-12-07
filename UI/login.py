@@ -2,9 +2,9 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 '''
 최초작성자 : 이영찬
 최초작성일 : 2018.11.29
-최초변경일 :
+최초변경일 : 2018.12.06
 목적 : 로그인 화면 생성
-개정 이력 :
+개정 이력 : 이영찬, 2018.12.06
 '''
 class view_Login(object):
     def __init__(self, client):

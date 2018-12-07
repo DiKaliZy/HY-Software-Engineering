@@ -3,9 +3,9 @@ from UI import ErrorMessage
 '''
 최초작성자 : 이영찬
 최초작성일 : 2018.11.29
-최초변경일 :
+최초변경일 : 2018.12.06
 목적 : 교수의 학생 추가시 제공할 인터페이스 구현
-개정 이력 :
+개정 이력 : 이영찬, 2018.12.06
 '''
 class view_profAddInfo(object):
     def __init__(self, prof):
