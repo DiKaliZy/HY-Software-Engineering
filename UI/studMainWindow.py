@@ -13,7 +13,7 @@ class view_studMainWindow(object):
     def setupUi(self, Mainwindow):
         Mainwindow.setObjectName("Dialog")
         Mainwindow.resize(423, 411)
-        self.centralwidget = QtWidgets.QWidget(Dialog)
+        self.centralwidget = QtWidgets.QWidget(Mainwindow)
         self.centralwidget.setObjectName("centralwidget")
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton.setGeometry(QtCore.QRect(9, 9, 75, 23))
