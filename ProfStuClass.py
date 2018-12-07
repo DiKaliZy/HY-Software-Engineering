@@ -5,7 +5,6 @@
     목적 : 교수 클래스 생성
     개정 이력 :
 '''
-
 class Professor:
     #목적 : 교수 인스턴스 생성
     #매개변수 : 교수 리스트로부터 받은 id
@@ -71,7 +70,7 @@ class Student:
         self.id = id
         self.role = role
         self.teamNo = teamNo
-        self.managerObj = InitializeManager.getBang()
+        self.managerObj = managerObj
         self.display = display
 
     #목적 : 자신의 정보 수정

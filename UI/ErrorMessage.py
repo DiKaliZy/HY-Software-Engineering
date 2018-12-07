@@ -10,12 +10,12 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class view_ErrorMsg(object):
     def __init__(self):
 
-    def setupUi(self, Error):
-        Error.setObjectName("Error")
-        Error.resize(457, 138)
-        self.verticalLayout = QtWidgets.QVBoxLayout(Error)
+    def setupUi(self, Dialog):
+        Dialog.setObjectName("Error")
+        Dialog.resize(457, 138)
+        self.verticalLayout = QtWidgets.QVBoxLayout(Dialog)
         self.verticalLayout.setObjectName("verticalLayout")
-        self.label = QtWidgets.QLabel(Error)
+        self.label = QtWidgets.QLabel(Dialog)
         font = QtGui.QFont()
         font.setFamily("나눔스퀘어라운드 ExtraBold")
         font.setPointSize(12)
@@ -25,13 +25,13 @@ class view_ErrorMsg(object):
         self.label.setAlignment(QtCore.Qt.AlignCenter)
         self.label.setObjectName("label")
         self.verticalLayout.addWidget(self.label)
-        self.pushButton = QtWidgets.QPushButton(Error)
+        self.pushButton = QtWidgets.QPushButton(Dialog)
         self.pushButton.setObjectName("확인")
         self.verticalLayout.addWidget(self.pushButton)
 
-        self.retranslateUi(Error)
-        self.pushButton.clicked.connect(Error.accept)
-        QtCore.QMetaObject.connectSlotsByName(Error)
+        self.retranslateUi(Dialog)
+        self.pushButton.clicked.connect(Dialog.accept)
+        QtCore.QMetaObject.connectSlotsByName(Dialog)
 
     #목적 : 메시지의 내용을 설정한다.
     def setMessage(self, context):

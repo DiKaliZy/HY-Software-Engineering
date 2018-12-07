@@ -117,6 +117,11 @@ class view_Login(object):
         self.lineEdit_2.setAccessibleName(_translate("Dialog", "PhoneNo"))
         self.lineEdit_3.setAccessibleName(_translate("Dialog", "BangNo"))
 
+    def show(self):
+        ui = view_Login
+        ui.setupUi(Dialog)
+        Dialog.show()
+
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
