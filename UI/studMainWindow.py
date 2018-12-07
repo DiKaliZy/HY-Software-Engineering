@@ -7,8 +7,8 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 개정이력:
 '''
 class view_studMainWindow(object):
-    def __init__(self, Info):
-        self.list = Info
+    def __init__(self, InfoList):
+        self.list = InfoList
 
     def setupUi(self, Mainwindow):
         Mainwindow.setObjectName("Dialog")
@@ -55,6 +55,18 @@ class view_studMainWindow(object):
     #목적 : 테이블에 수업을 듣는 학생들의 정보을 출력 [팀 번호는 출력하지 않는다]
     def setTableWidgetData(self):
         list = self.list
+        for row in range(len(list)):
+            item = QtWidgets.QTableWidgetItem(list[row].studentName)
+            self.tableWidget.setItem(row, 0, item)
+            item = QtWidgets.QTableWidgetItem(list[row].studentPhone)
+            self.tableWidget.setItem(row, 1, item)
+            item = QtWidgets.QTableWidgetItem(list[row].studentTeamNo)
+            self.tableWidget.setItem(row, 2, item)
+            self.tableWidget.setSortingEnabled(True)
+            item.setTextAlignment(QtCore.Qt.AlignVcenter | QtCore.Qt.AlignRight)
+
+        self.tableWidget.resizeColumnsToContents()
+        self.tableWidget.resizeRowsToContents()
         for row in range(len(list)):
             item = QtWidgets.QTableWidgetItem(list[row].studentName)
             self.tableWidget.setItem(row, 0, item)

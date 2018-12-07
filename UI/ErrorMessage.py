@@ -8,6 +8,8 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 '''
 
 class view_ErrorMsg(object):
+    def __init__(self):
+
     def setupUi(self, Error):
         Error.setObjectName("Error")
         Error.resize(457, 138)

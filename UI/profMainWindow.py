@@ -8,8 +8,8 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 개정이력:
 '''
 class view_ProfMainWindow(object):
-    def __init__(self, Info):
-        self.list = Info
+    def __init__(self, Infolist):
+        self.list = Infolist
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")

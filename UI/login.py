@@ -7,7 +7,11 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 개정 이력 :
 '''
 class view_Login(object):
+    def __init__(self):
+        self.__dialog = None
+
     def setupUi(self, Dialog):
+        self.__dialog = Dialog
         Dialog.setObjectName("Dialog")
         Dialog.resize(413, 303)
         self.horizontalLayoutWidget = QtWidgets.QWidget(Dialog)
@@ -78,24 +82,28 @@ class view_Login(object):
         self.verticalLayout_2.addWidget(self.lineEdit_3)
 
         name = self.lineEdit.text()
-        phoneNo = self.lineEdit_2.text()
+        id = self.lineEdit_2.text()
         bangNo = self.lineEdit_3.text()
 
         self.retranslateUi(Dialog)
-        self.pushButton.clicked.connect(self.okayButtonClicked(name, phoneNo,bangNo))
+        self.pushButton.clicked.connect(self.okayButtonClicked(name, id, bangNo))
         self.pushButton_2.clicked.connect(self.cancelButtonClicked)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
     #목적 : 확인 버튼 클릭 시 클라이언트의 login 메서드 호출
     #매개변수 : 이름, 연락처, 방번호
-    def okayButtonClicked(self, name, phoneNo, bangNo):
-        client.login(name, phoneNo, bangNo)
-        self.close()
-
+    def okayButtonClicked(self, name, id, bangNo):
+        if bangNo == None:
+            setbangNo = -1
+            #client.login(name, id, setbangNo)
+        else:
+            print(name, id, bangNo)
+            #client.login(name, id, bangNo)
+        self.__dialog.close()
     #목적 : 취소 버튼 클릭 시 창 닫기(프로그램 종료)
     #매개변수 : 없음
     def cancelButtonClicked(self):
-        self.close()
+        self.__dialog.close()
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
@@ -103,7 +111,7 @@ class view_Login(object):
         self.pushButton.setText(_translate("Dialog", "확인"))
         self.pushButton_2.setText(_translate("Dialog", "취소"))
         self.label_2.setText(_translate("Dialog", "이름"))
-        self.label_3.setText(_translate("Dialog", "연락처"))
+        self.label_3.setText(_translate("Dialog", "학번"))
         self.label.setText(_translate("Dialog", "방 번호"))
         self.lineEdit.setAccessibleName(_translate("Dialog", "name"))
         self.lineEdit_2.setAccessibleName(_translate("Dialog", "PhoneNo"))

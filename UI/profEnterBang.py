@@ -8,6 +8,9 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 개정이력:
 '''
 class view_EnterBang(object):
+    def __init__(self, bangList):
+        self.list = bangList
+
     def setupUi(self, mainWindow):
         mainWindow.setObjectName("Title")
         mainWindow.resize(402, 550)
@@ -63,16 +66,14 @@ class view_EnterBang(object):
         QtCore.QMetaObject.connectSlotsByName(Title)
 
     def setTableWidgetData(self):
-        banglist = display.refreshbang()
-        column_idx = {'방 번호': 0, '수업이름': 1}
-        for k, v in banglist.items():
-            col = column_idx[k]
-            for row, val in enumerate(v):
-                item = QtWidgets.QTableWidgetItem(val)
-                if col == 1:
-                    item.setTextAlignment(QtCore.Qt.AlignVcenter|QtCore.Qt.AlignRight)
-
-                self.tableWidget.setItem(row, col, item)
+        list = self.list
+        for row in range(len(list)):
+            item = QtWidgets.QTableWidgetItem(list[row].bangNo)
+            self.tableWidget.setItem(row, 0, item)
+            item = QtWidgets.QTableWidgetItem(list[row].subjName)
+            self.tableWidget.setItem(row, 1, item)
+            self.tableWidget.setSortingEnabled(True)
+            item.setTextAlignment(QtCore.Qt.AlignVcenter | QtCore.Qt.AlignRight)
 
         self.tableWidget.resizeColumnsToContents()
         self.tableWidget.resizeRowsToContents()
