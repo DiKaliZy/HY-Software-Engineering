@@ -8,7 +8,7 @@ import Bang
 - 개정 이력 : 박근태, 2018.12.05
 """
 
-class InitalizeManager:
+class InitializeManager:
     bang = {}
     prof = {}
 
@@ -40,7 +40,7 @@ class InitalizeManager:
             #studenNo, studentName, studentPhone
             inputList = [data[0], data[1], data[2], teamNo, teamNo]
             teamNo += 1
-            bang = Bang(bangNo,bangOwnerID,subjName,inputList)
+            bang = Bang.Bang(bangNo,bangOwnerID,subjName,inputList)
             self.bang[bangNo] = bang
         self.__saveList()
 
@@ -77,7 +77,7 @@ class InitalizeManager:
                     break
                 be = be.split()
                 inputList.append(be)
-            bang = Bang(bangNo,bangOwnerID,subjName,inputList)
+            bang = Bang.Bang(bangNo,bangOwnerID,subjName,inputList)
             self.bang[bangNo] = bang
             bf.close()
         f.close()
@@ -95,14 +95,14 @@ class InitalizeManager:
                 for std in stdlist:
                     if std.studentName == name:
                         if std.studentNo == id:
-                            return True
+                            return 0
                         else:
                             #메세지 보내기 - id 틀림
-                            return False
+                            return 1
                 #메세지 보내기 - 리스트에 이름 존재 안함
-                return False
+                return 2
         #메세지 보내기 - 방이 존재하지 않음
-        return False
+        return 3
 
     """
         - 목적 : 교수 명단 확인
@@ -115,12 +115,12 @@ class InitalizeManager:
         for profs in self.prof:
             if profs.name == name:
                 if profs.id == id:
-                    return True
+                    return 0
                 #메세지 보내기 - id 이름 불일치
                 else:
-                    return False
+                    return 1
         #메세지 보내기 - 이름 존재 안 함
-        return False
+        return 2
 
     """
         - 목적 : 방 객체 얻기

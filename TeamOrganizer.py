@@ -1,11 +1,4 @@
-
-
-'''
-activityQ
-team
-organizeSwitch
-teamLimit
-'''
+import Bang
 
 class TeamActivity:
 	def __init__(self, i_from, i_to, i_type):
@@ -22,95 +15,84 @@ class Team:
 
 class TeamOrganizer:
 	def __init__(self, bang):
-		self._team = []
+		self._team = {}
 		self._activityQ = [] 	
 		self._organizeSwitch = False
 		self._teamLimit = 1
-                
-	def storeCommand(self, i_fromm, i_to, i_type):
-		#find(from) find(to)
-		tmpTeamActivity = TeamActivity(i_fromm, i_to, i_type)
-		"""if i_type == 0:
-                        
-			self._activityQ.append(tmpTeamActivity)
+		self.bangobj = bang
+		stddict = self.bangobj.getAll4Display()
+		self.loadTeam(stddict)
 
-			if i_type == 1:
-				executeAcitvity(tmpTeamActivity)
-				if i_type == 2:
-					if len(self._activityQ)!= 0:
-						self._activityQ.remove(self._activityQ[0])
-					if i_type == 3:
-						executeAcitvity(tmpTeamActivity)
-		"""
-		
-		
-	
-	def loadTeam(self, i_idd, i_teamNo, i_uniqueNo):
-		
-		state = True
-		for team in self._team:
-			if team._teamNo==i_teamNo:
-				state = False 
-		
-		if state == False:
-			print("can not creat  the new team "+str(i_teamNo))
-			print("this team has been created already")
-			return False
-		
-		tmpMember=(i_idd, i_uniqueNo)		
-		tmpMemberList = [tmpMember]
-		tmpTeam = Team(i_idd, 0, tmpMemberList , i_teamNo)
-		self._team.append(tmpTeam)
-		print("success creat a new team: t_No:"+str(i_teamNo))
-		return True
+	def storeCommand(self, i_fromm, i_to, i_type):
+		tmpTeamActivity = TeamActivity(i_fromm, i_to, i_type)
+		self._activityQ.append(tmpTeamActivity)
+		self.executeAcitvity(self._activityQ[0])
+		self._activityQ.pop(0)
+
+	def removeTeam(self):
+		self._team = {}
+
+	def loadTeam(self, stdlist):
+		for key in stdlist:
+			i_teamNo = stdlist[key].studentTeamNo
+			i_idd = stdlist[key].studentNo
+			i_uniqueNo = stdlist[key].studentUniqueNo
+			if i_teamNo in self._team:
+				self._team[i_teamNo].number_o_Person += 1
+				self._team[i_teamNo].teamMemberNo.append(i_idd)
+				if i_teamNo == i_uniqueNo:
+					self._team[i_teamNo].leaderNo = i_idd
+			else:
+				self._team[i_teamNo] = Team(0,1,[i_idd],i_teamNo)
+				if i_teamNo == i_uniqueNo:
+					self._team[i_teamNo].leaderNo = i_idd
+		for key in self._team:
+			if self._team[key].leaderNo == 0:
+				self._team[key].leaderNo = self._team[key].teamMemberNo[0]
+				self._team[stdlist[self._team[key].leaderNo].studentUniqueNo] = self._team[key]
+				for i in self._team[key].teamMemberNo:
+					self.bangobj.updateList(i,stdlist[self._team[key].leaderNo].studentUniqueNo)
+				del self._team[key]
 
 	def findTeamNo(self, idd):
-		state = False
-		for team in self._team:
-			for member in team._teamMember:
-				if member[0] == idd:
-					state = True
-					return team.teamNo
-				if state == False:
-					print("error, Not found this student in team")
+		for no in self._team:
+			if idd in self._team[no].teamMemberNo:
+				return no
 
 	def findLeaderNo(self,teamNo):
-		if(self.team[teamNo-1] != None):
-			return self.team[teamNo-1].leaderNo
-		else:
-			print("error! Not find team")
+		return self._team[teamNo]
 
 	def executeAcitvity(self, command):
-		# this function execute the input command
-		# send message using Bang.sentMessage, the argument message =  command.type
-		Bang.sentMessage(command._type, view)
-
+		myteamno = self.findTeamNo(command._from)
+		teamno = self.findTeamNo(command._to)
+		myteamlead = self.findLeaderNo(myteamno)
+		teamlead = self.findLeaderNo(teamno)
 		if command._type == 0:
-			self._activityQ.append(command)
-                        
-			if command._type == 1:
-				for tmp in self._activityQ:
-					if tmp._to = command._from and tmp._from = command._to:
-						tmpTeamNo = findTeamNo(command._to)
-					for team in self._team:
-						if team._teamNo = tmpTeamNo:
-							team._teamMemberNo.append(command._to)
-					for tmp in self.activityQ:
-						if tmp.to = command._to and tmp._from = command._from and tmp._type = command._type:
-							self.activityQ.remove(tmp)
-                                                        
-			if command._type == 2:
-				for tmp in self._activityQ:
-					if tmp.to = command._to and tmp._from = command._from and tmp._type = command._type:
-						self.activityQ.remove(tmp)
-			if command._type == 3:
-				tmpTeamNo = findTeamNo(command._to)
-				for team in self._team:
-					if team._teamNo = tmpTeamNo:
-						team._teamMemberNo.remove(command._to)
+			if self._team[teamno].number_o_Person + self._team[myteamno].number_o_Person > self._teamLimit:
+				self.bangobj.sendMessage(101, command._to, command._from)
+			elif self._team[myteamno].leaderNo != command._from:
+				self.bangobj.sendMessage(101, command._to, command._from)
+			else:
+				self.bangobj.sendMessage(1, command._to, command._from)
+		elif command._type == 1:
+			if self._team[teamno].number_o_Person + self._team[myteamno].number_o_Person > self._teamLimit:
+				self.bangobj.sendMessage(102, command._to, command._from)
+			else:
+				for id in self._team[teamno]._teamMemberNo:
+					self.bangobj.updateTeam(command._to, myteamno)
+				self.deleteTeam(teamno)
+		elif command._type == 2:
+			self.bangobj.sendMessage(command._type, command._to, command._from)
+		elif command._type == 3:
+			if self._team[myteamno].number_o_Person == 1:
+				self.bangobj.sendMessage(104, command._to, command._from)
+			else:
+				self._team[myteamno].number_o_Person -=1
+				self._team[myteamno].teamMemberNo.remove(command._from)
+				self.bangobj.updateTeam(command._from, 0)
 
 	def deleteTeam(self, teamNo):
-		self._team.remove(self.team[teamNo-1])
+		del self._team[teamNo]
 
 	def getSwitch(self):
 		return self._organizeSwitch
@@ -119,16 +101,23 @@ class TeamOrganizer:
 		return self._teamLimit
 
 	def setSwitch(self):
-		self._organizeSwitch = not (self._organizeSwitch)
+		if self._organizeSwitch == True:
+			self._organizeSwitch = False
+			self.cleanQ()
+		else:
+			self._organizeSwitch = True
 		return self._organizeSwitch
 
-	def setLimit(self, limit):
+	def setLimit(self, limit, me):
 		if(self._organizeSwitch == False):
 			self._teamLimit = limit
+		else:
+			#limit 변환 불가 (switch가 On 상태임)
+			self.bangobj.sendMessage(me,0,150)
 
 	def cleanQ(self):
-		if(self._organizeSwitch == False):
-			del self._activityQ
+		self._activityQ = []
+
 	
 
 

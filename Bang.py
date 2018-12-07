@@ -23,7 +23,7 @@ class Bang:
         self.bangNo = bangNo
         self.bangOwnerID = bangOwnerID
         self.subjName = subjName
-        self.teamorg = TeamOrganizer()
+        self.teamorg = TeamOrganizer.TeamOrganizer(self)
         for input in inputList:
             stud = StudentInfo(input[0],input[1],input[2],input[3],input[4])
             self.studentInfoList[input[0]] = stud
@@ -72,6 +72,9 @@ class Bang:
             disp = self.__ordering()
             for dis in self.displayObj:
                 self.displayObj[dis].refreshBang(disp)
+            self.teamorg.removeTeam()
+            for id in self.studentInfoList:
+                self.teamorg.loadTeam(self.studentInfoList)
 
     """
         - 목적 : 정보 수정
@@ -100,7 +103,10 @@ class Bang:
         - 변경 이력 : 박근태, 2018.12.05
         """
     def updateTeam(self,studNo, studTeamNo):
-        self.studentInfoList[studNo].studentTeamNo = studTeamNo
+        if studTeamNo != 0:
+            self.studentInfoList[studNo].studentTeamNo = studTeamNo
+        else:
+            self.studentInfoList[studNo].studentTeamNo = self.studentInfoList[studNo].studentUniqueNo
         disp = self.__ordering()
         for dis in self.displayObj:
             self.displayObj[dis].refreshBang(disp)
@@ -120,8 +126,8 @@ class Bang:
         - 반환 값 : 없음
         - 변경 이력 : 박근태, 2018.12.05
         """
-    def setLimit(self,limit):
-        self.teamorg.setLimit(limit)
+    def setLimit(self,limit, me):
+        self.teamorg.setLimit(limit, me)
 
     """
         - 목적 : 학생 정보 List 반환
@@ -165,6 +171,8 @@ class Bang:
             self.logInQ.append(id)
             disp = self.__ordering()
             self.displayObj[id].refreshBang(disp)
+            for message in self.studentInfoList[id].messages:
+                self.sendMessage(message.message, id, message.froms)
 
     """
         - 목적 : 로그 아웃 처리
@@ -192,22 +200,19 @@ class Bang:
         if to in self.displayObj:
             #가입신청 메시지
             if message == 1:
-                self.displayObj[to].messageSend(1)
-            #수락 메시지
-            elif message == 2:
-                self.displayObj[to].messageSend(2)
+                self.displayObj[to].messageSend(1, froms)
             #거절 메시지
             elif message == 3:
-                self.displayObj[to].messageSend(3)
+                self.displayObj[to].messageSend(3, froms)
             #신청 불가 메시지
             elif message == 101:
-                self.displayObj[froms].messageSend(101)
+                self.displayObj[froms].messageSend(101, froms)
             #수락 불가 메시지
             elif message == 102:
-                self.displayObj[froms].messageSend(102)
+                self.displayObj[froms].messageSend(102, froms)
             #탈퇴 불가 메시지
             elif message == 104:
-                self.displayObj[froms].messageSend(104)
+                self.displayObj[froms].messageSend(104, froms)
         else:
             self.__addMessage(message, to, froms)
 
