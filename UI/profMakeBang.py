@@ -1,5 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+from UI import ErrorMessage
 
 '''
 최초작성자 : 이영찬
@@ -91,8 +91,16 @@ class view_makebang(object):
         print("확인 버튼")
         file = self.lineEdit_2.text()
         name = self.lineEdit.text()
-        self.owner.makeBang(file, name)
-        makebang.close()
+        if file == None or name == None:
+            dialog = QtWidgets.QDialog()
+            ui = ErrorMessage.view_ErrorMsg()
+            ui.setupUi(dialog)
+            dialog.setMessage("첨부파일 혹은 이름을 모두 입력해주십시오")
+            dialog.show()
+        else:
+            makebang.close()
+            self.owner.makeBang(file, name)
+
 
     #목적 : 방 DB 파일 path를 가져옴
     def findButtonClicked(self):

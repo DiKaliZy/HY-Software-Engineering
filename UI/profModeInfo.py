@@ -1,5 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+from UI import ErrorMessage
 '''
 최초작성자 : 이영찬
 최초작성일 : 2018.11.29
@@ -99,6 +99,7 @@ class view_profModInfo(object):
         self.pushButton_2.clicked.connect(Dialog.reject)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
+    #목적 : 확인 버튼 클릭 시 입력된 정보를 바탕으로 정보 수정 메서드를 호출한다.
     def okayButtonClicked(self):
         print("확인 버튼")
         id = int(self.lineEdit.text())
@@ -107,10 +108,11 @@ class view_profModInfo(object):
         teamNo = int(self.lineEdit_4.text())
 
         if id == None or name == None or phoneNo == None or teamNo == None :
-            window = errorMsg()
-            ui.setupUi(window)
-            window.label.setText("수정 정보를 모두 입력해주시기 바랍니다")
-            window.exec_()
+            dialog = QtWidgets.QDialog()
+            ui = ErrorMessage.view_ErrorMsg()
+            ui.setupUi(dialog)
+            ui.label.setText("수정 정보를 모두 입력해주시기 바랍니다")
+            dialog.show()
         else:
             self.owner.modStudInform(id, name, phoneNo, teamNo)
         self.__dialog.close()

@@ -1,4 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
+from UI import studModInfo
 '''
 최초작성자 : 이영찬
 최초작성일 : 2018.11.29
@@ -94,8 +95,10 @@ class view_studMainWindow(object):
     # 목적 : 정보를 수정하기 위한 인터페이스를 띄운다.
     def modButtonClicked(self):
         print("학생정보수정")
-        window = studModInfo()
-        window.show()
+        dialog = QtWidgets.QDialog()
+        ui = studModInfo.view_studModInfo()
+        ui.setupUi(dialog)
+        dialog.show()
 
     # 목적 : 원하는 사람에게 팀 가입 신청 메시지를 보낸다.
     def joinButtonClicked(self, to):

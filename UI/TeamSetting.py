@@ -38,16 +38,17 @@ class view_TeamSetting(object):
         self.pushButton_2.setGeometry(QtCore.QRect(190, 120, 75, 23))
         self.pushButton_2.setObjectName("취소")
 
-        limit = int(self.spinBox.text())
+
         self.retranslateUi(Dialog)
-        #확인 버특 클릭 시 입력된 값을 매개변수로 한 limit 함수를 호출한다.
-        self.pushButton.clicked.connect(self.okayButtonClicked(limit))
+        self.pushButton.clicked.connect(self.okayButtonClicked)
         self.pushButton_2.clicked.connect(self.__dialog.close())
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
-    def okayButtonClicked(self, limit):
+    #목적 : 확인 버튼 클릭 시 입력된 값으로 팀 구성 인원을 설정한다.
+    def okayButtonClicked(self):
         print("확인 버튼")
-        self.owner.setlimit(limit)
+        limit = self.spinBox.text()
+        self.owner.setlimit(int(limit))
         self.__dialog.close()
 
     def retranslateUi(self, Dialog):

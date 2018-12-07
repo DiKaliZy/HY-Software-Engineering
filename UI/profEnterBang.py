@@ -1,5 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+from UI import *
 '''
 최초작성자 : 이영찬
 최초작성일 : 2018.11.29
@@ -81,14 +81,14 @@ class view_EnterBang(object):
 
     def addButtonClicked(self):
         print("추가 버튼")
-        window = view_makebang()
-        window.exec_()
+        window = view_makebang(self.owner)
+        window.show()
 
     def enterBunttonClicked(self):
         print("입장 버튼")
         idx = self.tableWidget.itemClicked()
         self.owner.enterBang(idx)
-        self.close()
+        self.__dialog.close()
 
     def retranslateUi(self, Title):
         _translate = QtCore.QCoreApplication.translate

@@ -83,6 +83,7 @@ class view_studModInfo(object):
         self.pushButton_2.clicked.connect(Dialog.close)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
+    #목적 : 확인 버튼 클릭 시 입력 된 정보를 바탕으로 정보를 수정하는 메서드를 호출
     def okayButtonClicked(self):
         print("확인 버튼")
         name = self.lineEdit.text()

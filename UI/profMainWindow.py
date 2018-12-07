@@ -1,5 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+from UI import profModeInfo, TeamSetting, profAddInfo
+import Display
 '''
 최초작성자 : 이영찬
 최초작성일 : 2018.11.29
@@ -7,6 +8,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 목적 : 교수의 방 입장 후 메인화면 출력
 개정이력:
 '''
+
 class view_ProfMainWindow(object):
     def __init__(self, Infolist, prof):
         self.list = Infolist
@@ -80,9 +82,14 @@ class view_ProfMainWindow(object):
         #수정 버튼 클릭 시 modButtonClicked 함수 호출
         self.pushButton_4.clicked.connect(self.modButtonClicked)
         #삭제 버튼 클릭 시 delButtonClicked 함수 호출
-        self.pushButton_5.clicked.connect(self.delButtonClicked(idx))
+        self.pushButton_5.clicked.connect(self.delButtonClicked)
+        self.tableWidget.DoubleClicked.connect(self.update)
         self.tableWidget.activated['QModelIndex'].connect(self.tableWidget.update)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+    #테이블의 내용을 업데이트한다
+    def update(self):
+        list = self.list
 
     #목적 : 테이블의 내용을 채운다.
     def setTableWidgetData(self):
@@ -105,33 +112,40 @@ class view_ProfMainWindow(object):
     #목적 : 새로운 학생을 리스트에 추가하기 위한 추가 인터페이스를 띄우도록 요청한다.
     def addButtonClicked(self):
         print("추가 버튼")
-        window = view_profaddInfo()
-        window.exec_()
+        dialog = QtWidgets.QDialog()
+        ui = profAddInfo.view_profAddInfo()
+        ui.setupUi(dialog)
+        dialog.show()
 
     #목적 : 팀 조건을 바꾸기 위해 팀 조건 설정 인터페이스를 띄우도록 요청한다.
     def setButtonClicked(self):
         print("세팅 버튼")
-        window = view_TeamSetting()
-        window.exec_()
+        dialog = QtWidgets.QDialog()
+        ui = TeamSetting.view_TeamSetting()
+        ui.setupUi(dialog)
+        dialog.show()
 
     #목적 : 팀 구성 가능 여부를 바꾼다.
     def switButtonClicked(self):
         print("스위치 버튼")
         self.owner.swtichOper()
-        state = display.switchOnOff()
+        state = Display.display.switchOnOff()
         self.label.setText("state : ", state)
 
     #목적 : 학생 정보를 수정하기 위한 인터페이스를 띄우도록 요청한다.
     def modButtonClicked(self):
         print("수정 버튼")
-        window = view_profModInfo()
-        window.show()
+        dialog = QtWidgets.QDialog()
+        ui = profModeInfo.view_profModInfo()
+        ui.setupUi(dialog)
+        dialog.show()
 
     #목적 : 학생 정보를 삭제하기 위한 인터페이스를 띄우도록 요청한다.
     def delButtonClicked(self):
         print("삭제 버튼")
         idx = self.tableWidget.curruntRow()
         self.owner.deleteStud(idx)
+        self.update()
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate

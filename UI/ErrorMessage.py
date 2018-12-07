@@ -1,4 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
+from UI import *
+
 '''
 최초작성자 : 이영찬
 최초작성일 : 2018.11.29

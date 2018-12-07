@@ -1,4 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
+from UI import ErrorMessage
 '''
 최초작성자 : 이영찬
 최초작성일 : 2018.11.29
@@ -84,7 +85,7 @@ class view_profAddInfo(object):
 
         self.retranslateUi(Dialog)
         self.pushButton.clicked.connect(self.okayButtonClicked(id, name, phoneNo))
-        self.pushButton_2.clicked.connect(Dialog.reject)
+        self.pushButton_2.clicked.connect(Dialog.close)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
     # 목적 : 확인버튼 클릭 시 학생을 추가하는 메서드 호출
@@ -92,9 +93,11 @@ class view_profAddInfo(object):
         # 학번 혹은 이름 미입력시 에러메시지 출력
         print("확인 버튼")
         if id == None or name == None or phoneNo == None:
-            window = view_Errormsg()
-            window.setMessage("정보를 모두 입력해주십시오")
-            window.exec_()
+            dialog = QtWidgets.QDialog()
+            ui = ErrorMessage.view_ErrorMsg()
+            ui.setupUi(dialog)
+            dialog.setMessage("정보를 모두 입력해주십시오")
+            dialog.show()
         else:
             self.owner.inputStud(id, name, phoneNo)
 

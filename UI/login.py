@@ -86,6 +86,10 @@ class view_Login(object):
         self.pushButton_2.clicked.connect(self.cancelButtonClicked)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
+    #목적 : 창을 닫는다.
+    def closeFunction(self):
+        self.__dialog.close()
+
     #목적 : 확인 버튼 클릭 시 클라이언트의 login 메서드 호출
     #매개변수 : 이름, 연락처, 방번호
     def okayButtonClicked(self):
