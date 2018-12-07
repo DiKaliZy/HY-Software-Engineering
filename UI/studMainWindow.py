@@ -7,8 +7,10 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 개정이력:
 '''
 class view_studMainWindow(object):
-    def __init__(self, InfoList):
+    def __init__(self, InfoList, stud):
         self.list = InfoList
+        self.__dialog=None
+        self.owner = stud
 
     def setupUi(self, Mainwindow):
         Mainwindow.setObjectName("Dialog")
@@ -39,7 +41,10 @@ class view_studMainWindow(object):
         self.tableWidget.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
         self.tableWidget.setEditTriggers(QtWidgets.QTableWidget.NoEditTriggers)
 
+        self.__dialog=Mainwindow
+
         to = self.tableWidget.curruntRow()
+
         self.retranslateUi(MainWindow)
         # 탈퇴 버튼 클릭 시 팀 탈퇴 기능을 수행
         self.pushButton.clicked.connect(self.quitButtonClicked(to))
@@ -82,7 +87,7 @@ class view_studMainWindow(object):
 
     # 목적: 팀을 탈퇴하기 위한 함수 실행을 요청
     def quitButtonClicked(self, to):
-        student.quitTeam(to)
+        self.student.quitTeam(to)
 
     # 목적 : 정보를 수정하기 위한 인터페이스를 띄운다.
     def modButtonClicked(self):
@@ -91,7 +96,7 @@ class view_studMainWindow(object):
 
     # 목적 : 원하는 사람에게 팀 가입 신청 메시지를 보낸다.
     def joinButtonClicked(self, to):
-        student.wantJoin(to)
+        self.student.wantJoin(to)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate

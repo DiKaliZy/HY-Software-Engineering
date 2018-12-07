@@ -7,6 +7,9 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 개정 이력 :
 '''
 class view_profAddInfo(object):
+    def __init__(self, prof):
+        self. owner = prof
+
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
         Dialog.resize(401, 306)
@@ -90,9 +93,9 @@ class view_profAddInfo(object):
         if id == None or name == None or phoneNo == None:
             window = view_Errormsg()
             window.setMessage("정보를 모두 입력해주십시오")
-            window.show()
+            window.exec_()
         else:
-            professor.inputStud(id, name, phoneNo)
+            self.owner.inputStud(id, name, phoneNo)
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate

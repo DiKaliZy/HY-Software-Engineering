@@ -9,6 +9,10 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 '''
 
 class view_TeamSetting(object):
+    def __init__(self, prof):
+        self.__dialog = None
+        self.owner = prof
+
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
         Dialog.resize(308, 159)
@@ -38,13 +42,12 @@ class view_TeamSetting(object):
         self.retranslateUi(Dialog)
         #확인 버특 클릭 시 입력된 값을 매개변수로 한 limit 함수를 호출한다.
         self.pushButton.clicked.connect(self.okayButtonClicked(limit))
-        self.pushButton_2.clicked.connect(self.close())
+        self.pushButton_2.clicked.connect(self.__dialog.close())
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
     def okayButtonClicked(self, limit):
-        professor.setlimit(limit)
-        self.close()
-
+        self.owner.setlimit(limit)
+        self.__dialog.close()
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
@@ -53,7 +56,6 @@ class view_TeamSetting(object):
         self.label.setText(_translate("Dialog", "인원설정"))
         self.pushButton.setText(_translate("Dialog", "확인"))
         self.pushButton_2.setText(_translate("Dialog", "취소"))
-
 
 if __name__ == "__main__":
     import sys

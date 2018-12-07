@@ -8,12 +8,14 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 개정이력:
 '''
 class view_EnterBang(object):
-    def __init__(self, bangList):
+    def __init__(self, bangList, prof):
         self.list = bangList
+        self.__dialog = None
+        self.owner = prof
 
-    def setupUi(self, mainWindow):
-        mainWindow.setObjectName("Title")
-        mainWindow.resize(402, 550)
+    def setupUi(self, Dialog):
+        Dialog.setObjectName("Title")
+        Dialog.resize(402, 550)
         self.verticalLayout = QtWidgets.QVBoxLayout(Title)
         self.verticalLayout.setObjectName("verticalLayout")
         self.label = QtWidgets.QLabel(Title)
@@ -54,14 +56,13 @@ class view_EnterBang(object):
         self.horizontalLayout_2.addWidget(self.pushButton_2)
         self.verticalLayout.addLayout(self.horizontalLayout_2)
 
-        self.retranslateUi(mainWindow)
+        self.retranslateUi(Dialog)
 
-        idx=self.tableWidget.itemClicked()
-
+        self.__dialog = Dialog
         self.setTableWidgetData()
         # 추가 버튼 입력시 새로운 윈도우를 뛰워야 함.
         self.pushButton.clicked.connect(self.addButtonClicked)
-        self.pushButton_2.clicked.connect(self.enterButtonClicked(idx))
+        self.pushButton_2.clicked.connect(self.enterButtonClicked)
         self.tableWidget.itemClicked['QTableWidgetItem*'].connect(self.pushButton_2.click)
         QtCore.QMetaObject.connectSlotsByName(Title)
 
@@ -80,10 +81,11 @@ class view_EnterBang(object):
 
     def addButtonClicked(self):
         window = view_makebang()
-        window.show()
+        window.exec_()
 
-    def enterBunttonClicked(self, idx):
-        Professor.enterBang(idx)
+    def enterBunttonClicked(self):
+        idx = self.tableWidget.itemClicked()
+        self.owner.enterBang(idx)
         self.close()
 
     def retranslateUi(self, Title):

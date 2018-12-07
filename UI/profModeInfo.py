@@ -9,6 +9,10 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 '''
 
 class view_profModInfo(object):
+    def __init__(self, prof):
+        self.owner = prof
+        self.__dialog = Dialog
+
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
         Dialog.resize(400, 300)
@@ -89,25 +93,26 @@ class view_profModInfo(object):
         self.verticalLayout_2.addWidget(self.lineEdit_4)
         self.horizontalLayout_2.addLayout(self.verticalLayout_2)
 
+        self.retranslateUi(Dialog)
+        #확인 버튼 클릭 시 정보수정 함수 호출
+        self.pushButton.clicked.connect(self.okayButtonClicked)
+        self.pushButton_2.clicked.connect(Dialog.reject)
+        QtCore.QMetaObject.connectSlotsByName(Dialog)
+
+    def okayButtonClicked(self):
         id = int(self.lineEdit.text())
         name = self.lineEdit_2.text()
         phoneNo = int(self.lineEdit_3.text())
         teamNo = int(self.lineEdit_4.text())
 
-
-        self.retranslateUi(Dialog)
-        #확인 버튼 클릭 시 정보수정 함수 호출
-        self.pushButton.clicked.connect(self.okayButtonClicked(id, name, phoneNo, teamNo))
-        self.pushButton_2.clicked.connect(Dialog.reject)
-        QtCore.QMetaObject.connectSlotsByName(Dialog)
-
-    def okayButtonClicked(self, id, name, phoneNo, teamNo):
         if id == None or name == None or phoneNo == None or teamNo == None :
-            ui = errorMsg()
-            ui.setupUi(Error)
-            Error.label.setText("수정 정보를 모두 입력해주시기 바랍니다")
-            Error.show()
-        self.close()
+            window = errorMsg()
+            ui.setupUi(window)
+            window.label.setText("수정 정보를 모두 입력해주시기 바랍니다")
+            window.exec_()
+        else:
+            self.owner.modStudInform(id, name, phoneNo, teamNo)
+        self.__dialog.close()
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
@@ -122,7 +127,6 @@ class view_profModInfo(object):
         self.lineEdit_2.setAccessibleName(_translate("Dialog", "studName"))
         self.lineEdit_3.setAccessibleName(_translate("Dialog", "phoneNo"))
         self.lineEdit_4.setAccessibleName(_translate("Dialog", "teamNo"))
-
 
 if __name__ == "__main__":
     import sys

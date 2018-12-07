@@ -10,6 +10,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class view_ProfMainWindow(object):
     def __init__(self, Infolist):
         self.list = Infolist
+        self.__dialog = None
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -64,6 +65,7 @@ class view_ProfMainWindow(object):
         self.tableWidget.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
         self.tableWidget.setEditTriggers(QtWidgets.QTableWidget.NoEditTriggers)
 
+        self.__dialog=MainWindow
         self.setTableWidgetData()
         idx = self.tableWidget.curruntRow()
 
@@ -96,20 +98,18 @@ class view_ProfMainWindow(object):
             self.tableWidget.setSortingEnabled(True)
             item.setTextAlignment(QtCore.Qt.AlignVcenter | QtCore.Qt.AlignRight)
 
-
         self.tableWidget.resizeColumnsToContents()
         self.tableWidget.resizeRowsToContents()
 
-
     #목적 : 새로운 학생을 리스트에 추가하기 위한 추가 인터페이스를 띄우도록 요청한다.
     def addButtonClicked(self):
-        window = view_addStudent()
-        window.show()
+        window = view_profaddInfo()
+        window.exec_()
 
     #목적 : 팀 조건을 바꾸기 위해 팀 조건 설정 인터페이스를 띄우도록 요청한다.
     def setButtonClicked(self):
         window = view_TeamSetting()
-        window.show()
+        window.exec_()
 
     #목적 : 팀 구성 가능 여부를 바꾼다.
     def switButtonClicked(self):

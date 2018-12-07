@@ -9,6 +9,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 class view_ErrorMsg(object):
     def __init__(self):
+        self.__dialog=None
 
     def setupUi(self, Dialog):
         Dialog.setObjectName("Error")
@@ -32,6 +33,7 @@ class view_ErrorMsg(object):
         self.retranslateUi(Dialog)
         self.pushButton.clicked.connect(Dialog.accept)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
+        self.__dialog = Dialog
 
     #목적 : 메시지의 내용을 설정한다.
     def setMessage(self, context):
