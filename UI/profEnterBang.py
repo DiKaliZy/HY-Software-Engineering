@@ -80,10 +80,12 @@ class view_EnterBang(object):
         self.tableWidget.resizeRowsToContents()
 
     def addButtonClicked(self):
+        print("추가 버튼")
         window = view_makebang()
         window.exec_()
 
     def enterBunttonClicked(self):
+        print("입장 버튼")
         idx = self.tableWidget.itemClicked()
         self.owner.enterBang(idx)
         self.close()

@@ -100,6 +100,7 @@ class view_profModInfo(object):
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
     def okayButtonClicked(self):
+        print("확인 버튼")
         id = int(self.lineEdit.text())
         name = self.lineEdit_2.text()
         phoneNo = int(self.lineEdit_3.text())

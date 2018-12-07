@@ -46,6 +46,7 @@ class view_TeamSetting(object):
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
     def okayButtonClicked(self, limit):
+        print("확인 버튼")
         self.owner.setlimit(limit)
         self.__dialog.close()
 

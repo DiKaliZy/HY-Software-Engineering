@@ -59,6 +59,7 @@ class view_studMainWindow(object):
 
     #목적 : 테이블에 수업을 듣는 학생들의 정보을 출력 [팀 번호는 출력하지 않는다]
     def setTableWidgetData(self):
+        print("테이블 정보 입력")
         list = self.list
         for row in range(len(list)):
             item = QtWidgets.QTableWidgetItem(list[row].studentName)
@@ -87,16 +88,19 @@ class view_studMainWindow(object):
 
     # 목적: 팀을 탈퇴하기 위한 함수 실행을 요청
     def quitButtonClicked(self, to):
-        self.student.quitTeam(to)
+        print("학생팀탈퇴")
+        self.owner.quitTeam(to)
 
     # 목적 : 정보를 수정하기 위한 인터페이스를 띄운다.
     def modButtonClicked(self):
+        print("학생정보수정")
         window = studModInfo()
         window.show()
 
     # 목적 : 원하는 사람에게 팀 가입 신청 메시지를 보낸다.
     def joinButtonClicked(self, to):
-        self.student.wantJoin(to)
+        print("가입신청")
+        self.owner.wantJoin(to)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate

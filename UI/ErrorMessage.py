@@ -37,6 +37,7 @@ class view_ErrorMsg(object):
 
     #목적 : 메시지의 내용을 설정한다.
     def setMessage(self, context):
+        print("메시지 설정")
         self.label.setText(context)
 
     def retranslateUi(self, Error):

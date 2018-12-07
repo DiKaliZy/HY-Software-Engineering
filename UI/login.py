@@ -89,21 +89,24 @@ class view_Login(object):
     #목적 : 확인 버튼 클릭 시 클라이언트의 login 메서드 호출
     #매개변수 : 이름, 연락처, 방번호
     def okayButtonClicked(self):
-
+        print("확인버튼")
         name = self.lineEdit.text()
         id = self.lineEdit_2.text()
         bangNo = self.lineEdit_3.text()
 
         if bangNo == None:
             setbangNo = -1
-            self.client.login(name, id, setbangNo)
+            self.client.LogIn(id, name, setbangNo)
         else:
             print(name, id, bangNo)
-            self.client.login(name, id, bangNo)
+            self.client.LogIn(id, name, bangNo)
         self.__dialog.close()
+
     #목적 : 취소 버튼 클릭 시 창 닫기(프로그램 종료)
     #매개변수 : 없음
+
     def cancelButtonClicked(self):
+        print("취소 버튼")
         self.__dialog.close()
 
     def retranslateUi(self, Dialog):

@@ -8,9 +8,10 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 개정이력:
 '''
 class view_ProfMainWindow(object):
-    def __init__(self, Infolist):
+    def __init__(self, Infolist, prof):
         self.list = Infolist
         self.__dialog = None
+        self.owner = prof
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -67,7 +68,7 @@ class view_ProfMainWindow(object):
 
         self.__dialog=MainWindow
         self.setTableWidgetData()
-        idx = self.tableWidget.curruntRow()
+
 
         self.retranslateUi(MainWindow)
         #추가 버튼 클릭 시 addButtonClicked 함수 호출
@@ -103,28 +104,34 @@ class view_ProfMainWindow(object):
 
     #목적 : 새로운 학생을 리스트에 추가하기 위한 추가 인터페이스를 띄우도록 요청한다.
     def addButtonClicked(self):
+        print("추가 버튼")
         window = view_profaddInfo()
         window.exec_()
 
     #목적 : 팀 조건을 바꾸기 위해 팀 조건 설정 인터페이스를 띄우도록 요청한다.
     def setButtonClicked(self):
+        print("세팅 버튼")
         window = view_TeamSetting()
         window.exec_()
 
     #목적 : 팀 구성 가능 여부를 바꾼다.
     def switButtonClicked(self):
-        Professor.swtichOper()
+        print("스위치 버튼")
+        self.owner.swtichOper()
         state = display.switchOnOff()
         self.label.setText("state : ", state)
 
     #목적 : 학생 정보를 수정하기 위한 인터페이스를 띄우도록 요청한다.
     def modButtonClicked(self):
+        print("수정 버튼")
         window = view_profModInfo()
         window.show()
 
     #목적 : 학생 정보를 삭제하기 위한 인터페이스를 띄우도록 요청한다.
-    def delButtonClicked(self,idx):
-        professor.deleteStud(idx)
+    def delButtonClicked(self):
+        print("삭제 버튼")
+        idx = self.tableWidget.curruntRow()
+        self.owner.deleteStud(idx)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate

@@ -90,6 +90,7 @@ class view_profAddInfo(object):
     # 목적 : 확인버튼 클릭 시 학생을 추가하는 메서드 호출
     def okayButtonClicked(self, id, name, phoneNo):
         # 학번 혹은 이름 미입력시 에러메시지 출력
+        print("확인 버튼")
         if id == None or name == None or phoneNo == None:
             window = view_Errormsg()
             window.setMessage("정보를 모두 입력해주십시오")

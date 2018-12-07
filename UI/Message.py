@@ -13,7 +13,6 @@ class view_Message(object):
         self.owner = stud
         self.dis = display
 
-
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
         Dialog.resize(413, 143)

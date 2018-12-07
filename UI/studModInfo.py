@@ -80,10 +80,11 @@ class view_studModInfo(object):
         self.retranslateUi(Dialog)
         #확인버튼 클릭 시 학생의 정보 수정 함수를 호출
         self.pushButton.clicked.connect(self.okayButtonClicked)
-        self.pushButton_2.clicked.connect(Dialog.reject)
+        self.pushButton_2.clicked.connect(Dialog.close)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
     def okayButtonClicked(self):
+        print("확인 버튼")
         name = self.lineEdit.text()
         phoneNo = self.lineEdit_2.text()
         self.owner.modMyInform(name, phoneNo)
