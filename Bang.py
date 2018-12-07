@@ -126,8 +126,8 @@ class Bang:
         - 반환 값 : 없음
         - 변경 이력 : 박근태, 2018.12.05
         """
-    def setLimit(self,limit):
-        self.teamorg.setLimit(limit)
+    def setLimit(self,limit, me):
+        self.teamorg.setLimit(limit, me)
 
     """
         - 목적 : 학생 정보 List 반환
@@ -171,6 +171,8 @@ class Bang:
             self.logInQ.append(id)
             disp = self.__ordering()
             self.displayObj[id].refreshBang(disp)
+            for message in self.studentInfoList[id].messages:
+                self.sendMessage(message.message, id, message.froms)
 
     """
         - 목적 : 로그 아웃 처리
@@ -198,19 +200,19 @@ class Bang:
         if to in self.displayObj:
             #가입신청 메시지
             if message == 1:
-                self.displayObj[to].messageSend(1)
+                self.displayObj[to].messageSend(1, froms)
             #거절 메시지
             elif message == 3:
-                self.displayObj[to].messageSend(3)
+                self.displayObj[to].messageSend(3, froms)
             #신청 불가 메시지
             elif message == 101:
-                self.displayObj[froms].messageSend(101)
+                self.displayObj[froms].messageSend(101, froms)
             #수락 불가 메시지
             elif message == 102:
-                self.displayObj[froms].messageSend(102)
+                self.displayObj[froms].messageSend(102, froms)
             #탈퇴 불가 메시지
             elif message == 104:
-                self.displayObj[froms].messageSend(104)
+                self.displayObj[froms].messageSend(104, froms)
         else:
             self.__addMessage(message, to, froms)
 

@@ -1,12 +1,5 @@
 import Bang
 
-'''
-activityQ
-team
-organizeSwitch
-teamLimit
-'''
-
 class TeamActivity:
 	def __init__(self, i_from, i_to, i_type):
 		self._from = i_from
@@ -115,9 +108,12 @@ class TeamOrganizer:
 			self._organizeSwitch = True
 		return self._organizeSwitch
 
-	def setLimit(self, limit):
+	def setLimit(self, limit, me):
 		if(self._organizeSwitch == False):
 			self._teamLimit = limit
+		else:
+			#limit 변환 불가 (switch가 On 상태임)
+			self.bangobj.sendMessage(me,0,150)
 
 	def cleanQ(self):
 		self._activityQ = []
