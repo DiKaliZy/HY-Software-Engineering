@@ -7,6 +7,9 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 개정이력:
 '''
 class view_studMainWindow(object):
+    def __init__(self, Info):
+        self.list = Info
+
     def setupUi(self, Mainwindow):
         Mainwindow.setObjectName("Dialog")
         Mainwindow.resize(423, 411)
@@ -25,18 +28,18 @@ class view_studMainWindow(object):
         self.tableWidget.setRowCount(0)
         item = QtWidgets.QTableWidgetItem()
         self.tableWidget.setHorizontalHeaderItem(0, item)
-        item.setFlags(QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled)
         item = QtWidgets.QTableWidgetItem()
         self.tableWidget.setHorizontalHeaderItem(1, item)
-        item.setFlags(QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled)
         item = QtWidgets.QTableWidgetItem()
         self.tableWidget.setHorizontalHeaderItem(2, item)
-        item.setFlags(QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled)
         self.pushButton_3 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_3.setGeometry(QtCore.QRect(320, 70, 75, 23))
         self.pushButton_3.setObjectName("신청")
+        self.tableWidget.setSelectionBehavior(QtWidgets.QTableView.SelectRows)
+        self.tableWidget.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
+        self.tableWidget.setEditTriggers(QtWidgets.QTableWidget.NoEditTriggers)
 
-        to = self.tableWidget.itemClicked()
+        to = self.tableWidget.curruntRow()
         self.retranslateUi(MainWindow)
         # 탈퇴 버튼 클릭 시 팀 탈퇴 기능을 수행
         self.pushButton.clicked.connect(self.quitButtonClicked(to))
@@ -51,16 +54,16 @@ class view_studMainWindow(object):
 
     #목적 : 테이블에 수업을 듣는 학생들의 정보을 출력 [팀 번호는 출력하지 않는다]
     def setTableWidgetData(self):
-        list = display.
-        column_idx = {'학번': 0, '이름': 1, '연락처':2}
-        for k, v in list.items():
-            col = column_idx[k]
-            for row, val in enumerate(v):
-                item = QtWidgets.QTableWidgetItem(val)
-                if col == 2:
-                    item.setTextAlignment(QtCore.Qt.AlignVcenter | QtCore.Qt.AlignRight)
-
-                self.tableWidget.setItem(row, col, item)
+        list = self.list
+        for row in range(len(list)):
+            item = QtWidgets.QTableWidgetItem(list[row].studentName)
+            self.tableWidget.setItem(row, 0, item)
+            item = QtWidgets.QTableWidgetItem(list[row].studentPhone)
+            self.tableWidget.setItem(row, 1, item)
+            item = QtWidgets.QTableWidgetItem(list[row].studentTeamNo)
+            self.tableWidget.setItem(row, 2, item)
+            self.tableWidget.setSortingEnabled(True)
+            item.setTextAlignment(QtCore.Qt.AlignVcenter | QtCore.Qt.AlignRight)
 
         self.tableWidget.resizeColumnsToContents()
         self.tableWidget.resizeRowsToContents()
