@@ -16,7 +16,7 @@ class Professor:
     #목적 : 교수 방 입장
     #매개변수 : 방 번호
     def enterBang(bangIndex):
-        InitializeManager.getBang(bangIndex)
+        Initializer.getBang(bangIndex)
 
     #목적 : 학생 명단 제외
     #매개변수 : 학생 학번
@@ -41,7 +41,7 @@ class Professor:
     #목적 : 팀 구성 인원 설정
     #매개변수 : 설정할 인원 수
    def setLimit(limit):
-            Bang.setLimit(limit)
+        Bang.setLimit(limit)
 
     #목적 : 방 생성
     #매개변수 : 방 DB, 방 이름
