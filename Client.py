@@ -22,9 +22,9 @@ class Client:
     - 반환 값 : 없음
     - 변경 이력 : 박근태, 2018.12.05
     """
-    def logIn(self,id, name, bang):
+    def logIn(self, id, name, bang):
         # 학생 로그인
-        if bang != None:
+        if bang != -1:
             isRight = self.obj.studCheck(id, name, bang)
             if isRight == 0:
                 #생성자 변동 -> self.display를 parameter로 받음 추가
@@ -39,7 +39,7 @@ class Client:
             elif isRight == 3:
                 self.display.messageSend(0, 112)
         # 교수 로그인
-        else:
+        elif bang == -1:
             isRight = self.obj.profCheck(id, name)
             if isRight == 0:
                 # 생성자 변동 -> self.display를 parameter로 받음 추가
@@ -48,6 +48,11 @@ class Client:
                 self.display.giveRef(self.me)
                 self.display.openView("ProfMain")
             elif isRight == 1:
-                self.display.messageSend(0, 110)
+
+                self.display.messageSend(110, 0)
             elif isRight == 2:
-                self.display.messageSend(0, 111)
+                self.display.messageSend(111, 0)
+
+        else:
+            #잘못된 방 번호 입력
+            self.display.messageSend(0, 999)

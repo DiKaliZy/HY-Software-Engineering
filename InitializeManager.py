@@ -51,7 +51,7 @@ class InitializeManager:
         - 변경 이력 : 박근태, 2018.12.05
         """
     def __listInitialize(self, profListfile):
-        f = open(profListfile, "r")
+        f = open(profListfile, "r", encoding="utf-8")
         inputList = []
         while True:
             proflist = f.readline()
@@ -60,14 +60,15 @@ class InitializeManager:
             spprof = proflist.split()
             self.prof[spprof[0]] = spprof[1]
         f.close()
-        f= open("Bang List.txt", "r")
+        f= open("Bang List.txt", "r", encoding="utf-8")
+        print(f.read())
         while True:
             blist = f.readline()
             if not blist:
                 break
             b = blist.split()
             b = str(b)
-            bf = open(b, "r")
+            bf = open(b, "r", encoding="utf-8")
             bangNo = bf.readline()
             bangOwnerID = bf.readline()
             subjName = bf.readline()
@@ -90,8 +91,8 @@ class InitializeManager:
         """
     def studCheck(self,id, name, bang):
         for bangs in self.bang:
-            if bangs.bangNo == bang:
-                stdlist = bangs.getAll4Display()
+            if self.bang[bangs].bangNo == bang:
+                stdlist = bang[bangs].getAll4Display()
                 for std in stdlist:
                     if std.studentName == name:
                         if std.studentNo == id:
@@ -113,8 +114,8 @@ class InitializeManager:
     def profCheck(self, id, name):
         # prof 찾기
         for profs in self.prof:
-            if profs.name == name:
-                if profs.id == id:
+            if self.prof[profs] == name:
+                if profs == id:
                     return 0
                 #메세지 보내기 - id 이름 불일치
                 else:
