@@ -1,5 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from UI import *
+from UI import profMakeBang
 '''
 최초작성자 : 이영찬
 최초작성일 : 2018.11.29
@@ -81,8 +81,24 @@ class view_EnterBang(object):
 
     def addButtonClicked(self):
         print("추가 버튼")
-        window = view_makebang(self.owner)
-        window.show()
+        dialog = QtWidgets.QDialog()
+        ui = profMakeBang.view_makebang(self.owner)
+        ui.setupUi(dialog)
+        dialog.show()
+
+    #목적 : 변동된 리스트 정보를 띄운다.
+    def updateList(self, list):
+        for row in range(len(list)):
+            item = QtWidgets.QTableWidgetItem(list[row].studentNo)
+            self.tableWidget.setItem(row, 0, item)
+            item = QtWidgets.QTableWidgetItem(list[row].studentName)
+            self.tableWidget.setItem(row, 1, item)
+            item = QtWidgets.QTableWidgetItem(list[row].studentPhone)
+            self.tableWidget.setSortingEnabled(True)
+            item.setTextAlignment(QtCore.Qt.AlignVcenter | QtCore.Qt.AlignRight)
+
+        self.tableWidget.resizeColumnsToContents()
+        self.tableWidget.resizeRowsToContents()
 
     def enterBunttonClicked(self):
         print("입장 버튼")

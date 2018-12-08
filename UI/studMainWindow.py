@@ -8,10 +8,11 @@ from UI import studModInfo
 - 개정이력 : 이영찬, 2018.12.06
 '''
 class view_studMainWindow(object):
-    def __init__(self, InfoList, stud):
+    def __init__(self, InfoList, stud, state):
         self.list = InfoList
         self.__dialog=None
         self.owner = stud
+        self.state = state
 
     def setupUi(self, Mainwindow):
         Mainwindow.setObjectName("Dialog")
@@ -26,7 +27,7 @@ class view_studMainWindow(object):
         self.pushButton_2.setObjectName("정보수정")
         self.tableWidget = QtWidgets.QTableWidget(self.centralwidget)
         self.tableWidget.setGeometry(QtCore.QRect(9, 38, 401, 361))
-        self.tableWidget.setObjectName("tableWidget")
+        self.tableWidget.setObjectName("리스트")
         self.tableWidget.setColumnCount(3)
         self.tableWidget.setRowCount(0)
         item = QtWidgets.QTableWidgetItem()
@@ -36,25 +37,28 @@ class view_studMainWindow(object):
         item = QtWidgets.QTableWidgetItem()
         self.tableWidget.setHorizontalHeaderItem(2, item)
         self.pushButton_3 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_3.setGeometry(QtCore.QRect(320, 70, 75, 23))
-        self.pushButton_3.setObjectName("신청")
+        self.pushButton_3.setGeometry(QtCore.QRect(250, 10, 75, 23))
+        self.label = QtWidgets.QLabel(self.centralwidget)
+        self.label.setGeometry(QtCore.QRect(90, 10, 151, 21))
+        self.label.setAlignment(QtCore.Qt.AlignCenter)
+        self.label.setObjectName("State")
+        MainWindow.setCentralWidget(self.centralwidget)
+        self.statusbar = QtWidgets.QStatusBar(MainWindow)
+        self.statusbar.setObjectName("statusbar")
+        MainWindow.setStatusBar(self.statusbar)
         self.tableWidget.setSelectionBehavior(QtWidgets.QTableView.SelectRows)
         self.tableWidget.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
         self.tableWidget.setEditTriggers(QtWidgets.QTableWidget.NoEditTriggers)
 
         self.__dialog=Mainwindow
 
-        to = self.tableWidget.curruntRow()
-
         self.retranslateUi(MainWindow)
         # 탈퇴 버튼 클릭 시 팀 탈퇴 기능을 수행
-        self.pushButton.clicked.connect(self.quitButtonClicked(to))
-
+        self.pushButton.clicked.connect(self.quitButtonClicked)
         # 정보수정 버튼 클릭 시 정보 수정 인터페이스 및 함수 호출
         self.pushButton_2.clicked.connect(self.modButtonClicked)
-
         # 신청 버튼 클릭 시 해당 학생에게 가입 요청 메시지를 전달
-        self.pushButton_3.clicked.connect(self.joinButtonClicked(to))
+        self.pushButton_3.clicked.connect(self.joinButtonClicked)
         self.tableWidget.activated['QModelIndex'].connect(self.tableWidget.update)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
@@ -62,6 +66,7 @@ class view_studMainWindow(object):
     def setTableWidgetData(self):
         print("테이블 정보 입력")
         list = self.list
+        state = self.state
         for row in range(len(list)):
             item = QtWidgets.QTableWidgetItem(list[row].studentName)
             self.tableWidget.setItem(row, 0, item)
@@ -71,24 +76,14 @@ class view_studMainWindow(object):
             self.tableWidget.setItem(row, 2, item)
             self.tableWidget.setSortingEnabled(True)
             item.setTextAlignment(QtCore.Qt.AlignVcenter | QtCore.Qt.AlignRight)
-
-        self.tableWidget.resizeColumnsToContents()
-        self.tableWidget.resizeRowsToContents()
-        for row in range(len(list)):
-            item = QtWidgets.QTableWidgetItem(list[row].studentName)
-            self.tableWidget.setItem(row, 0, item)
-            item = QtWidgets.QTableWidgetItem(list[row].studentPhone)
-            self.tableWidget.setItem(row, 1, item)
-            item = QtWidgets.QTableWidgetItem(list[row].studentTeamNo)
-            self.tableWidget.setItem(row, 2, item)
-            self.tableWidget.setSortingEnabled(True)
-            item.setTextAlignment(QtCore.Qt.AlignVcenter | QtCore.Qt.AlignRight)
+        self.label.setText("state : ", state)
 
         self.tableWidget.resizeColumnsToContents()
         self.tableWidget.resizeRowsToContents()
 
     # 목적: 팀을 탈퇴하기 위한 함수 실행을 요청
-    def quitButtonClicked(self, to):
+    def quitButtonClicked(self):
+        to = self.tableWidget.curruntRow()
         print("학생팀탈퇴")
         self.owner.quitTeam(to)
 
@@ -96,14 +91,31 @@ class view_studMainWindow(object):
     def modButtonClicked(self):
         print("학생정보수정")
         dialog = QtWidgets.QDialog()
-        ui = studModInfo.view_studModInfo()
+        ui = studModInfo.view_studModInfo(self.owner)
         ui.setupUi(dialog)
         dialog.show()
 
     # 목적 : 원하는 사람에게 팀 가입 신청 메시지를 보낸다.
-    def joinButtonClicked(self, to):
+    def joinButtonClicked(self):
+        to = self.tableWidget.curruntRow()
         print("가입신청")
         self.owner.wantJoin(to)
+
+    #목적 : 변동된 리스트 정보를 띄운다.
+    def updateList(self, list, state):
+        for row in range(len(list)):
+            item = QtWidgets.QTableWidgetItem(list[row].studentNo)
+            self.tableWidget.setItem(row, 0, item)
+            item = QtWidgets.QTableWidgetItem(list[row].studentName)
+            self.tableWidget.setItem(row, 1, item)
+            item = QtWidgets.QTableWidgetItem(list[row].studentPhone)
+            self.tableWidget.setItem(row, 2, item)
+            self.tableWidget.setSortingEnabled(True)
+            item.setTextAlignment(QtCore.Qt.AlignVcenter | QtCore.Qt.AlignRight)
+
+        self.tableWidget.resizeColumnsToContents()
+        self.tableWidget.resizeRowsToContents()
+        self.label.setText("state : ", state)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
