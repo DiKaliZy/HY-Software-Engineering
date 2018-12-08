@@ -10,7 +10,7 @@ from UI import studModInfo
 class view_studMainWindow(object):
     def __init__(self, InfoList, stud, state):
         self.list = InfoList
-        self.__dialog=None
+        self.__dialog = None
         self.owner = stud
         self.state = state
 

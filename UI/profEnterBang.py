@@ -1,6 +1,8 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from UI import profMakeBang
 import InitializeManager
+
+
 '''
 최초작성자 : 이영찬
 최초작성일 : 2018.11.29
@@ -69,13 +71,14 @@ class view_EnterBang(object):
 
     def setTableWidgetData(self):
         list = self.list
+        print(list)
         for row in range(len(list)):
             item = QtWidgets.QTableWidgetItem(list[row].bangNo)
             self.tableWidget.setItem(row, 0, item)
             item = QtWidgets.QTableWidgetItem(list[row].subjName)
             self.tableWidget.setItem(row, 1, item)
             self.tableWidget.setSortingEnabled(True)
-            item.setTextAlignment(QtCore.Qt.AlignVcenter | QtCore.Qt.AlignRight)
+            item.setTextAlignment(QtCore.Qt.AlignVCenter | QtCore.Qt.AlignRight)
 
         self.tableWidget.resizeColumnsToContents()
         self.tableWidget.resizeRowsToContents()
@@ -90,11 +93,10 @@ class view_EnterBang(object):
     #목적 : 변동된 리스트 정보를 띄운다.
     def updateList(self, list):
         for row in range(len(list)):
-            item = QtWidgets.QTableWidgetItem(list[row].studentNo)
+            item = QtWidgets.QTableWidgetItem(list[row].bangNo)
             self.tableWidget.setItem(row, 0, item)
-            item = QtWidgets.QTableWidgetItem(list[row].studentName)
+            item = QtWidgets.QTableWidgetItem(list[row].subjName)
             self.tableWidget.setItem(row, 1, item)
-            item = QtWidgets.QTableWidgetItem(list[row].studentPhone)
             self.tableWidget.setSortingEnabled(True)
             item.setTextAlignment(QtCore.Qt.AlignVcenter | QtCore.Qt.AlignRight)
 
@@ -123,9 +125,16 @@ class view_EnterBang(object):
 
 if __name__ == "__main__":
     import sys
+    import os
+
+    mypath = os.path.dirname(sys.executable) + "\Lib\site-packages\PyQt5\Qt\plugins"
+    libpaths = QtWidgets.QApplication.libraryPaths()
+    libpaths.append(mypath)
+    QtWidgets.QApplication.setLibraryPaths(libpaths)
+
     app = QtWidgets.QApplication(sys.argv)
-    Title = view_EnterBang()
-    ui = view_EnterBang()
+    Title = QtWidgets.QDialog()
+    ui = view_EnterBang([0], "a")
     ui.setupUi(Title)
     Title.show()
     sys.exit(app.exec_())

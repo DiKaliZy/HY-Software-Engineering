@@ -8,7 +8,6 @@ import Display, Bang
 목적 : 교수의 방 입장 후 메인화면 출력
 개정이력 : 이영찬, 2018.12.06
 '''
-
 class view_ProfMainWindow(object):
     def __init__(self, Infolist, prof, state):
         self.list = Infolist
