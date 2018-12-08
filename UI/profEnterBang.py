@@ -1,5 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from UI import profMakeBang
+import InitializeManager
 '''
 최초작성자 : 이영찬
 최초작성일 : 2018.11.29
@@ -125,7 +126,7 @@ if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     Title = view_EnterBang()
     ui = view_EnterBang()
-    ui.setupUi()
+    ui.setupUi(Title)
     Title.show()
     sys.exit(app.exec_())
 
