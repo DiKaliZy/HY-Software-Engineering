@@ -31,10 +31,13 @@ class Client:
                 student = ProfStuClass.Student(id, bang, self.display, self.obj)
 
             elif isRight == 1:
+                #불일치 정보
                 self.display.messageSend(110, 0)
             elif isRight == 2:
+                #리스트에 이름 없음
                 self.display.messageSend(111, 0)
             elif isRight == 3:
+                #방에존재하지 않음
                 self.display.messageSend(112, 0)
         # 교수 로그인
 

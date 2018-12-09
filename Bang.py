@@ -300,8 +300,8 @@ class Bang:
                           + " " + self.studentInfoList[id].studentPhone + " " + self.studentInfoList[id].studentTeamNo\
                           + " " + self.studentInfoList[id].studentUniqueNo + "\n"
             f.writelines(writestring)
-
         f.close()
+        self.displayObj[me].messageSend(1000,me)
     """
         - 목적 : dictionary형태의 data를 정렬된 list형태로 반환
         - 매개변수 : 없음

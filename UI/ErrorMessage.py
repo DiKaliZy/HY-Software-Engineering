@@ -46,7 +46,7 @@ class view_ErrorMsg(object):
 
     def retranslateUi(self, Error):
         _translate = QtCore.QCoreApplication.translate
-        Error.setWindowTitle(_translate("Error", "Warning!"))
+        Error.setWindowTitle(_translate("Error", "알림"))
         self.label.setAccessibleName(_translate("Error", "errmsg"))
         self.label.setText(_translate("Error", "에러 메시지"))
         self.pushButton.setAccessibleName(_translate("Error", "okay_button"))

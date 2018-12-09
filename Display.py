@@ -3,7 +3,7 @@ from UI import login, studModInfo, studMainWindow, ErrorMessage, Message,\
     TeamSetting
 import sys
 import os
-from PyQt5 import QtWidgets
+from PyQt5 import QtCore, QtGui, QtWidgets
 
 mypath = os.path.dirname(sys.executable) + "\Lib\site-packages\PyQt5\Qt\plugins"
 libpaths = QtWidgets.QApplication.libraryPaths()
@@ -40,16 +40,22 @@ class Display:
         return self.stdList
 
     def messageSend(self, message, froms):
-        ...
-        """
         if self.error == None:
             self.error = ErrorMessage.view_ErrorMsg()
-        self.Dialog = QtWidgets.Qdialog()
+        dialog = QtWidgets.QDialog()
         self.ui = self.error
-        self.ui.setupUi(self.Dialog)
-        self.ui.label.setText("수정 정보를 모두 입력해주시기 바랍니다")
-        self.Dialog.exec()
-        """
+        self.ui.setupUi(dialog)
+        if message == 110:
+            self.ui.label.setText("입력한 이름과 학번이 일치하지 않습니다.")
+        elif message == 111:
+            self.ui.label.setText("등록되지 않은 이름입니다.")
+        elif message == 112:
+            self.ui.label.setText("존재하지 않는 방입니다.")
+        elif message == 1000:
+            self.ui.label.setText("저장 완료!")
+        else:
+            self.ui.label.setText("아직 정의되지 않은 에러.")
+        dialog.show()
 
     def openView(self, name):
         if name == "LogIn":
