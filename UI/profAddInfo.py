@@ -79,17 +79,16 @@ class view_profAddInfo(object):
         self.verticalLayout_2.addWidget(self.lineEdit_3)
         self.horizontalLayout_2.addLayout(self.verticalLayout_2)
 
-        id = self.lineEdit.text()
-        name = self.lineEdit_2.text()
-        phoneNo = self.lineEdit_3.text()
-
         self.retranslateUi(Dialog)
-        self.pushButton.clicked.connect(self.okayButtonClicked(id, name, phoneNo))
-        self.pushButton_2.clicked.connect(Dialog.close)
+        self.pushButton.clicked.connect(self.okayButtonClicked())
+        self.pushButton_2.clicked.connect(self.cancelButtonClicked())
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
     # 목적 : 확인버튼 클릭 시 학생을 추가하는 메서드 호출
-    def okayButtonClicked(self, id, name, phoneNo):
+    def okayButtonClicked(self):
+        id = self.lineEdit.text()
+        name = self.lineEdit_2.text()
+        phoneNo = self.lineEdit_3.text()
         # 학번 혹은 이름 미입력시 에러메시지 출력
         print("확인 버튼")
         if id == None or name == None or phoneNo == None:
@@ -100,6 +99,9 @@ class view_profAddInfo(object):
             dialog.show()
         else:
             self.owner.inputStud(id, name, phoneNo)
+
+    def cancelButtonClicked(self):
+        self.Dialog.close()
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
