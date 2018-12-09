@@ -105,7 +105,7 @@ class view_EnterBang(object):
 
     def enterBunttonClicked(self):
         print("입장 버튼")
-        idx = self.tableWidget.itemClicked()
+        idx = self.tableWidget.currentRow()
         self.owner.enterBang(idx)
         self.__dialog.close()
 
@@ -134,7 +134,7 @@ if __name__ == "__main__":
 
     app = QtWidgets.QApplication(sys.argv)
     Title = QtWidgets.QDialog()
-    ui = view_EnterBang([0], "a")
+    ui = view_EnterBang()
     ui.setupUi(Title)
     Title.show()
     sys.exit(app.exec_())
