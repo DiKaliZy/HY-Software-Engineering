@@ -38,6 +38,15 @@ class Bang:
         return self.bangOwnerID
 
     """
+        - 목적 : TeamOrganizer 객체 ref 반환
+        - 매개변수 : 없음
+        - 반환 값 : TeamOrganizer object
+        - 변경 이력 : 박근태, 2018.12.08
+    """
+    def getOrg(self):
+        return self.teamorg
+
+    """
         - 목적 : 학생 entry 삭제
         - 매개변수 : id(대상 id) : Integer, me(수행자 id) : Integer
         - 반환 값 : 없음
@@ -170,9 +179,13 @@ class Bang:
             self.displayObj[id] = display
             self.logInQ.append(id)
             disp = self.__ordering()
-            self.displayObj[id].refreshBang(disp)
-            for message in self.studentInfoList[id].messages:
-                self.sendMessage(message.message, id, message.froms)
+            self.displayObj[id].refreshBang(disp, self.switchStat)
+            if id in self.studentInfoList:
+                for message in self.studentInfoList[id].messages:
+                    self.sendMessage(message.message, id, message.froms)
+            print("감각이")
+            self.displayObj[id].openView("ProfMain")
+
 
     """
         - 목적 : 로그 아웃 처리
@@ -292,7 +305,20 @@ class Bang:
         for id in self.studentInfoList:
             stdlist.append(self.studentInfoList[id])
         #정렬
-        stdlist = sorted(self.studentInfoList.items(), key=operator.itemgetter(1).studentTeamNo)
+        i = 0
+        lowest = stdlist[0]
+        while True:
+            for a in range(i,len(stdlist)):
+                if lowest.studentTeamNo > stdlist[a].studentTeamNo:
+                    lowest = stdlist[a]
+                    stdlist[a] = stdlist[i]
+                    stdlist[i] = lowest
+                    lowest = stdlist[i+1]
+            i += 1
+            if i >= len(stdlist):
+                break
+        for i in range(len(stdlist)):
+            print(stdlist[i].studentName, " / ", stdlist[i].studentTeamNo)
         return stdlist
 
 """

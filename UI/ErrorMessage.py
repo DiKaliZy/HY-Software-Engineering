@@ -1,4 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
+import sys
 '''
 최초작성자 : 이영찬
 최초작성일 : 2018.11.29
@@ -9,7 +10,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 class view_ErrorMsg(object):
     def __init__(self):
-
+        ...
     def setupUi(self, Error):
         Error.setObjectName("Error")
         Error.resize(457, 138)

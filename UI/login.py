@@ -1,4 +1,8 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
+import os
+
+
+
 '''
 최초작성자 : 이영찬
 최초작성일 : 2018.11.29
@@ -7,8 +11,9 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 개정 이력 :
 '''
 class view_Login(object):
-    def __init__(self):
+    def __init__(self, client):
         self.__dialog = None
+        self.client = client
 
     def setupUi(self, Dialog):
         self.__dialog = Dialog
@@ -81,25 +86,26 @@ class view_Login(object):
         self.lineEdit_3.setObjectName("lineEdit_3")
         self.verticalLayout_2.addWidget(self.lineEdit_3)
 
-        name = self.lineEdit.text()
-        id = self.lineEdit_2.text()
-        bangNo = self.lineEdit_3.text()
-
         self.retranslateUi(Dialog)
-        self.pushButton.clicked.connect(self.okayButtonClicked(name, id, bangNo))
+        self.pushButton.clicked.connect(self.okayButtonClicked)
         self.pushButton_2.clicked.connect(self.cancelButtonClicked)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
     #목적 : 확인 버튼 클릭 시 클라이언트의 login 메서드 호출
     #매개변수 : 이름, 연락처, 방번호
-    def okayButtonClicked(self, name, id, bangNo):
-        if bangNo == None:
+    def okayButtonClicked(self):
+        name = self.lineEdit.text()
+        id = self.lineEdit_2.text()
+        bangNo = self.lineEdit_3.text()
+        if bangNo == "":
             setbangNo = -1
-            #client.login(name, id, setbangNo)
+            self.client.logIn(id, name, setbangNo)
         else:
-            print(name, id, bangNo)
-            #client.login(name, id, bangNo)
+            self.client.logIn(id, name, bangNo)
+
+    def close_view(self):
         self.__dialog.close()
+
     #목적 : 취소 버튼 클릭 시 창 닫기(프로그램 종료)
     #매개변수 : 없음
     def cancelButtonClicked(self):
@@ -119,9 +125,15 @@ class view_Login(object):
 
 if __name__ == "__main__":
     import sys
+
+    mypath = os.path.dirname(sys.executable) + "\Lib\site-packages\PyQt5\Qt\plugins"
+    libpaths = QtWidgets.QApplication.libraryPaths()
+    libpaths.append(mypath)
+    QtWidgets.QApplication.setLibraryPaths(libpaths)
+
     app = QtWidgets.QApplication(sys.argv)
     Dialog = QtWidgets.QDialog()
-    ui = view_Login()
+    ui = view_Login(Dialog)
     ui.setupUi(Dialog)
     Dialog.show()
     sys.exit(app.exec_())

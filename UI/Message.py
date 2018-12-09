@@ -8,6 +8,11 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 '''
 
 class view_Message(object):
+    def __init__(self, to, froms, stdObj):
+        self.to = to
+        self.froms = froms
+        self.student = stdObj
+
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
         Dialog.resize(413, 143)
@@ -35,8 +40,6 @@ class view_Message(object):
 
         self.retranslateUi(Dialog)
 
-        name, code, to = display.
-
         # 승락 버튼 클릭 시 positive 메서드 호출
         self.pushButton.clicked.connect(self.posClicked(to))
         # 거절 버튼 클릭 시 negative 메서드 호출
@@ -44,10 +47,10 @@ class view_Message(object):
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
     def posClicked(self, to):
-        student.positive(to)
+        self.student.positive(to)
 
     def negClicked(self, to):
-        student.negative(to)
+        self.student.negative(to)
 
     #목적 : 메시지의 내용을 설정한다.
     def setMessage(self, context):

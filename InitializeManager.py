@@ -51,7 +51,7 @@ class InitializeManager:
         - 변경 이력 : 박근태, 2018.12.05
         """
     def __listInitialize(self, profListfile):
-        f = open(profListfile, "r", encoding="utf-8")
+        f = open(profListfile, "r", encoding="utf-8-sig")
         inputList = []
         while True:
             proflist = f.readline()
@@ -60,25 +60,29 @@ class InitializeManager:
             spprof = proflist.split()
             self.prof[spprof[0]] = spprof[1]
         f.close()
-        f= open("Bang List.txt", "r", encoding="utf-8")
-        print(f.read())
+        f= open("Bang List.txt", "r", encoding="utf-8-sig")
         while True:
             blist = f.readline()
             if not blist:
                 break
             b = blist.split()
-            b = str(b)
-            bf = open(b, "r", encoding="utf-8")
+            b = b[1]
+            bf = open(b, "r", encoding="utf-8-sig")
             bangNo = bf.readline()
+            bangNo = bangNo.strip('\n')
             bangOwnerID = bf.readline()
+            bangOwnerID = bangOwnerID.strip('\n')
             subjName = bf.readline()
+            subjName = subjName.strip('\n')
             while True:
                 be = bf.readline()
                 if not be:
                     break
                 be = be.split()
                 inputList.append(be)
+            print(inputList)
             bang = Bang.Bang(bangNo,bangOwnerID,subjName,inputList)
+            bangNo = int(bangNo)
             self.bang[bangNo] = bang
             bf.close()
         f.close()
@@ -113,6 +117,7 @@ class InitializeManager:
         """
     def profCheck(self, id, name):
         # prof 찾기
+        print(self.prof)
         for profs in self.prof:
             if self.prof[profs] == name:
                 if profs == id:
@@ -141,9 +146,9 @@ class InitializeManager:
         - 변경 이력 : 박근태, 2018.12.05 
         """
     def __saveList(self):
-        f = open("Bang List.txt","w")
+        f = open("Bang List.txt","w",encoding="utf-8-sig")
         for bang in self.bang:
-            writeString = bang + " " + self.bang[bang] + "\n"
+            writeString = "bang" + bang + ".txt\n"
             f.write(writeString)
         f.close()
 
@@ -156,6 +161,6 @@ class InitializeManager:
     def throwBangList(self,id):
         bangList = []
         for bangs in self.bang:
-            if self.bang[bangs].getOwnerID == id:
-                bangList.append(self.bang[bangs])
+            if self.bang[bangs].getOwnerID() == id:
+                bangList.append([int(bangs), self.bang[bangs]])
         return bangList

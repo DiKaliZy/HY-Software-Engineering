@@ -1,5 +1,4 @@
-import Professor
-import Student
+import ProfStuClass
 import Display
 
 """
@@ -27,28 +26,37 @@ class Client:
         if bang != -1:
             isRight = self.obj.studCheck(id, name, bang)
             if isRight == 0:
+                self.display.closeView("Login")
                 #생성자 변동 -> self.display를 parameter로 받음 추가
-                student = Student.Student(id, bang, self.display, self.obj)
+                student = ProfStuClass.Student(id, bang, self.display, self.obj)
                 self.me = student
-                self.display.giveRef(self.me)
+                self.display.giveRef(self.me,"Student")
                 self.display.openView("StudMain")
             elif isRight == 1:
-                self.display.messageSend(0, 110)
+                self.display.messageSend(110, 0)
             elif isRight == 2:
-                self.display.messageSend(0, 111)
+                self.display.messageSend(111, 0)
             elif isRight == 3:
-                self.display.messageSend(0, 112)
+                self.display.messageSend(112, 0)
         # 교수 로그인
+
         elif bang == -1:
             isRight = self.obj.profCheck(id, name)
             if isRight == 0:
+                banglist = []
+                bangindex = []
+                self.display.closeView("Login")
                 # 생성자 변동 -> self.display를 parameter로 받음 추가
-                professor = Professor.Professor(id, self.display, self.obj)
+                professor = ProfStuClass.Professor(id, self.display, self.obj)
                 self.me = professor
-                self.display.giveRef(self.me)
-                self.display.openView("ProfMain")
+                rawbanglist = self.obj.throwBangList(id)
+                for bangs in rawbanglist:
+                    banglist.append(bangs[1])
+                    bangindex.append(bangs[0])
+                self.display.refreshBangList(bangindex,banglist)
+                self.display.giveRef(self.me, "Professor")
+                self.display.openView("ProfBangList")
             elif isRight == 1:
-
                 self.display.messageSend(110, 0)
             elif isRight == 2:
                 self.display.messageSend(111, 0)
@@ -56,3 +64,4 @@ class Client:
         else:
             #잘못된 방 번호 입력
             self.display.messageSend(0, 999)
+

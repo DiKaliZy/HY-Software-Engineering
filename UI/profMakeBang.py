@@ -10,6 +10,8 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 '''
 
 class view_makebang(object):
+    def __init__(self, prof):
+        self.professor = prof
     def setupUi(self, makeBang):
         makeBang.setObjectName("Software_Engineering")
         makeBang.resize(400, 296)
@@ -81,14 +83,15 @@ class view_makebang(object):
         name = self.lineEdit.text()
 
         self.retranslateUi(makeBang)
-        self.pushButton.clicked.connect(self.okayButtonClicked(file, name))
+        self.pushButton.clicked.connect(self.okayButtonClicked)
         self.pushButton_2.clicked.connect(makeBang.reject)
         self.pushButton_3.clicked.connect(self.findButtonClicked)
+
         QtCore.QMetaObject.connectSlotsByName(makeBang)
 
     def okayButtonClicked(self, file, name):
-        Professor.makeBang(file, name)
-        self.close()
+        self.professor.makeBang(file, name)
+        #self.__dialog.close()
 
     #목적 : 방 DB 파일 path를 가져옴
     def findButtonClicked(self):
@@ -113,6 +116,7 @@ class view_makebang(object):
 
 if __name__ == "__main__":
     import sys
+
     app = QtWidgets.QApplication(sys.argv)
     makebang = QtWidgets.QDialog()
     ui = view_makebang()
