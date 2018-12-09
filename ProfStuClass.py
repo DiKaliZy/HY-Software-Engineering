@@ -78,9 +78,9 @@ class Student:
         self.id = id
         self.display = display
         self.display.giveRef(self, "Student")
-
+        print("21444")
         self.bang = managerObj.getBang(int(bang))
-        self.teamOrg = self.bang.getOrg()
+        #self.teamOrg = self.bang.getOrg()
         self.bang.logIn(self.id, self.display)
 
     #목적 : 자신의 정보 수정

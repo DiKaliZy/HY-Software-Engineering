@@ -60,10 +60,6 @@ class Bang:
             self.__ordering()
             for dis in self.displayObj:
                 self.displayObj[dis].refreshBang(self.stdlist,self.switchStat)
-        else:
-            #return을 넣어 오류 발생을 알리던지 함수에서 실행자 정보를 받아 display로 오류를 바로 보내던지
-            self.displayObj[me].messageSend()
-            #오류(존재하지 않는 학생)
 
     """
     - 목적 : 새 항목 추가
@@ -73,8 +69,7 @@ class Bang:
     """
     def newDataInput(self,studNo,studName,studPhone, me):
         if studNo in self.studentInfoList:
-            #오류(이미 등록되어 있는 학생)
-            self.displayObj[me].messageSend()
+            ...
         else:
             highVal = 0
             for id in self.studentInfoList:

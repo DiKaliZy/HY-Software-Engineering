@@ -40,7 +40,16 @@ class Display:
         return self.stdList
 
     def messageSend(self, message, froms):
-        print("message is ", message)
+        ...
+        """
+        if self.error == None:
+            self.error = ErrorMessage.view_ErrorMsg()
+        self.Dialog = QtWidgets.Qdialog()
+        self.ui = self.error
+        self.ui.setupUi(self.Dialog)
+        self.ui.label.setText("수정 정보를 모두 입력해주시기 바랍니다")
+        self.Dialog.exec()
+        """
 
     def openView(self, name):
         if name == "LogIn":
@@ -50,6 +59,7 @@ class Display:
             self.Dialog.show()
 
         elif name == "StudMain":
+            print("wwww")
             if self.studMain == None:
                 self.studMain = studMainWindow.view_studMainWindow(self.stdList,self.me,self.switch)
                 self.Main = QtWidgets.QMainWindow()
