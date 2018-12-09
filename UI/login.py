@@ -6,9 +6,9 @@ import os
 '''
 최초작성자 : 이영찬
 최초작성일 : 2018.11.29
-최초변경일 :
+최초변경일 : 2018.12.06
 목적 : 로그인 화면 생성
-개정 이력 :
+개정 이력 : 이영찬, 2018.12.06
 '''
 class view_Login(object):
     def __init__(self, client):
@@ -91,6 +91,10 @@ class view_Login(object):
         self.pushButton_2.clicked.connect(self.cancelButtonClicked)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
+    #목적 : 창을 닫는다.
+    def closeFunction(self):
+        self.__dialog.close()
+
     #목적 : 확인 버튼 클릭 시 클라이언트의 login 메서드 호출
     #매개변수 : 이름, 연락처, 방번호
     def okayButtonClicked(self):
@@ -108,7 +112,9 @@ class view_Login(object):
 
     #목적 : 취소 버튼 클릭 시 창 닫기(프로그램 종료)
     #매개변수 : 없음
+
     def cancelButtonClicked(self):
+        print("취소 버튼")
         self.__dialog.close()
 
     def retranslateUi(self, Dialog):
@@ -122,6 +128,11 @@ class view_Login(object):
         self.lineEdit.setAccessibleName(_translate("Dialog", "name"))
         self.lineEdit_2.setAccessibleName(_translate("Dialog", "PhoneNo"))
         self.lineEdit_3.setAccessibleName(_translate("Dialog", "BangNo"))
+
+    def show(self):
+        ui = view_Login
+        ui.setupUi(Dialog)
+        Dialog.show()
 
 if __name__ == "__main__":
     import sys

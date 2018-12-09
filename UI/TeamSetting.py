@@ -1,14 +1,18 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 '''
-최초작성자 : 이영찬
-최초작성일 : 2018.11.29
-최초변경일 :
-목적 : 교수의 팀 조건 설정 인터페이스
-개정이력:
+- 최초작성자 : 이영찬
+- 최초작성일 : 2018.11.29
+- 최초변경일 : 2018.12.06
+- 목적 : 교수의 팀 조건 설정 인터페이스
+- 개정이력 : 이영찬, 2018.12.06 
 '''
 
 class view_TeamSetting(object):
+    def __init__(self, prof):
+        self.__dialog = None
+        self.owner = prof
+
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
         Dialog.resize(308, 159)
@@ -34,17 +38,18 @@ class view_TeamSetting(object):
         self.pushButton_2.setGeometry(QtCore.QRect(190, 120, 75, 23))
         self.pushButton_2.setObjectName("취소")
 
-        limit = int(self.spinBox.text())
+
         self.retranslateUi(Dialog)
-        #확인 버특 클릭 시 입력된 값을 매개변수로 한 limit 함수를 호출한다.
-        self.pushButton.clicked.connect(self.okayButtonClicked(limit))
-        self.pushButton_2.clicked.connect(self.close())
+        self.pushButton.clicked.connect(self.okayButtonClicked)
+        self.pushButton_2.clicked.connect(self.__dialog.close())
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
-    def okayButtonClicked(self, limit):
-        professor.setlimit(limit)
-        self.close()
-
+    #목적 : 확인 버튼 클릭 시 입력된 값으로 팀 구성 인원을 설정한다.
+    def okayButtonClicked(self):
+        print("확인 버튼")
+        limit = self.spinBox.text()
+        self.owner.setlimit(int(limit))
+        self.__dialog.close()
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
@@ -53,7 +58,6 @@ class view_TeamSetting(object):
         self.label.setText(_translate("Dialog", "인원설정"))
         self.pushButton.setText(_translate("Dialog", "확인"))
         self.pushButton_2.setText(_translate("Dialog", "취소"))
-
 
 if __name__ == "__main__":
     import sys

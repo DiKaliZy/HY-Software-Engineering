@@ -1,18 +1,19 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from UI import TeamSetting, profModeInfo, profAddInfo
-
+from UI import profModeInfo, TeamSetting, profAddInfo
+import Display, Bang
 '''
 최초작성자 : 이영찬
 최초작성일 : 2018.11.29
-최초변경일 :
+최초변경일 : 2018.12.06
 목적 : 교수의 방 입장 후 메인화면 출력
-개정이력:
+개정이력 : 이영찬, 2018.12.06
 '''
 class view_ProfMainWindow(object):
-    def __init__(self, Infolist, switch, me):
+    def __init__(self, Infolist, prof, state):
         self.list = Infolist
-        self.switch = switch
-        self.me = me
+        self.__dialog = None
+        self.owner = prof
+        self.state = state
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -67,8 +68,9 @@ class view_ProfMainWindow(object):
         self.tableWidget.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
         self.tableWidget.setEditTriggers(QtWidgets.QTableWidget.NoEditTriggers)
 
+        self.__dialog=MainWindow
         self.setTableWidgetData()
-        idx = self.tableWidget.curruntRow()
+
 
         self.retranslateUi(MainWindow)
         #추가 버튼 클릭 시 addButtonClicked 함수 호출
@@ -80,13 +82,15 @@ class view_ProfMainWindow(object):
         #수정 버튼 클릭 시 modButtonClicked 함수 호출
         self.pushButton_4.clicked.connect(self.modButtonClicked)
         #삭제 버튼 클릭 시 delButtonClicked 함수 호출
-        self.pushButton_5.clicked.connect(self.delButtonClicked(idx))
+        self.pushButton_5.clicked.connect(self.delButtonClicked)
         self.tableWidget.activated['QModelIndex'].connect(self.tableWidget.update)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
 
     #목적 : 테이블의 내용을 채운다.
     def setTableWidgetData(self):
         list = self.list
+        state = self.state
         for row in range(len(list)):
             item = QtWidgets.QTableWidgetItem(list[row].studentNo)
             self.tableWidget.setItem(row, 0, item)
@@ -99,10 +103,9 @@ class view_ProfMainWindow(object):
             self.tableWidget.setSortingEnabled(True)
             item.setTextAlignment(QtCore.Qt.AlignVcenter | QtCore.Qt.AlignRight)
 
-
+        self.label.setText("state : ", state)
         self.tableWidget.resizeColumnsToContents()
         self.tableWidget.resizeRowsToContents()
-
 
     #목적 : 새로운 학생을 리스트에 추가하기 위한 추가 인터페이스를 띄우도록 요청한다.
     def addButtonClicked(self):
@@ -114,23 +117,50 @@ class view_ProfMainWindow(object):
 
     #목적 : 팀 조건을 바꾸기 위해 팀 조건 설정 인터페이스를 띄우도록 요청한다.
     def setButtonClicked(self):
-        window = TeamSetting.view_TeamSetting()
-        window.show()
+        print("세팅 버튼")
+        dialog = QtWidgets.QDialog()
+        ui = TeamSetting.view_TeamSetting(self.owner)
+        ui.setupUi(dialog)
+        dialog.show()
 
     #목적 : 팀 구성 가능 여부를 바꾼다.
     def switButtonClicked(self):
-        self.me.swtichOper()
-        state = self.switch
-        self.label.setText("state : ", state)
+        print("스위치 버튼")
+        self.owner.swtichOper()
+        state = Display.display.switchOnOff()
 
     #목적 : 학생 정보를 수정하기 위한 인터페이스를 띄우도록 요청한다.
     def modButtonClicked(self):
-        window = profModeInfo.view_profModInfo()
-        window.show()
+        print("수정 버튼")
+        dialog = QtWidgets.QDialog()
+        ui = profModeInfo.view_profModInfo(self.owner)
+        ui.setupUi(dialog)
+        dialog.show()
 
     #목적 : 학생 정보를 삭제하기 위한 인터페이스를 띄우도록 요청한다.
-    def delButtonClicked(self,idx):
-        self.me.deleteStud(idx)
+    def delButtonClicked(self):
+        print("삭제 버튼")
+        idx = self.tableWidget.curruntRow()
+        self.owner.deleteStud(idx)
+        self.update()
+
+    #목적 : 변동된 리스트 정보를 띄운다.
+    def updateList(self, list, state):
+        for row in range(len(list)):
+            item = QtWidgets.QTableWidgetItem(list[row].studentNo)
+            self.tableWidget.setItem(row, 0, item)
+            item = QtWidgets.QTableWidgetItem(list[row].studentName)
+            self.tableWidget.setItem(row, 1, item)
+            item = QtWidgets.QTableWidgetItem(list[row].studentPhone)
+            self.tableWidget.setItem(row, 2, item)
+            item = QtWidgets.QTableWidgetItem(list[row].studentTeamNo)
+            self.tableWidget.setItem(row, 3, item)
+            self.tableWidget.setSortingEnabled(True)
+            item.setTextAlignment(QtCore.Qt.AlignVcenter | QtCore.Qt.AlignRight)
+
+        self.tableWidget.resizeColumnsToContents()
+        self.tableWidget.resizeRowsToContents()
+        self.label.setText("state : ", state)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate

@@ -1,14 +1,18 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+from UI import ErrorMessage
 '''
-최초작성자 : 이영찬
-최초작성일 : 2018.11.29
-최초변경일 :
-목적 : 교수의 학생 정보 수정
-개정이력:
+- 최초작성자 : 이영찬
+- 최초작성일 : 2018.11.29
+- 최초변경일 : 2018.12.06
+- 목적 : 교수의 학생 정보 수정
+- 개정이력 : 이영찬, 2018.12.06
 '''
 
 class view_profModInfo(object):
+    def __init__(self, prof):
+        self.owner = prof
+        self.__dialog = Dialog
+
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
         Dialog.resize(400, 300)
@@ -89,25 +93,29 @@ class view_profModInfo(object):
         self.verticalLayout_2.addWidget(self.lineEdit_4)
         self.horizontalLayout_2.addLayout(self.verticalLayout_2)
 
+        self.retranslateUi(Dialog)
+        #확인 버튼 클릭 시 정보수정 함수 호출
+        self.pushButton.clicked.connect(self.okayButtonClicked)
+        self.pushButton_2.clicked.connect(Dialog.reject)
+        QtCore.QMetaObject.connectSlotsByName(Dialog)
+
+    #목적 : 확인 버튼 클릭 시 입력된 정보를 바탕으로 정보 수정 메서드를 호출한다.
+    def okayButtonClicked(self):
+        print("확인 버튼")
         id = int(self.lineEdit.text())
         name = self.lineEdit_2.text()
         phoneNo = int(self.lineEdit_3.text())
         teamNo = int(self.lineEdit_4.text())
 
-
-        self.retranslateUi(Dialog)
-        #확인 버튼 클릭 시 정보수정 함수 호출
-        self.pushButton.clicked.connect(self.okayButtonClicked(id, name, phoneNo, teamNo))
-        self.pushButton_2.clicked.connect(Dialog.reject)
-        QtCore.QMetaObject.connectSlotsByName(Dialog)
-
-    def okayButtonClicked(self, id, name, phoneNo, teamNo):
         if id == None or name == None or phoneNo == None or teamNo == None :
-            ui = errorMsg()
-            ui.setupUi(Error)
-            Error.label.setText("수정 정보를 모두 입력해주시기 바랍니다")
-            Error.show()
-        self.close()
+            dialog = QtWidgets.QDialog()
+            ui = ErrorMessage.view_ErrorMsg()
+            ui.setupUi(dialog)
+            ui.label.setText("수정 정보를 모두 입력해주시기 바랍니다")
+            dialog.show()
+        else:
+            self.owner.modStudInform(id, name, phoneNo, teamNo)
+        self.__dialog.close()
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
@@ -122,7 +130,6 @@ class view_profModInfo(object):
         self.lineEdit_2.setAccessibleName(_translate("Dialog", "studName"))
         self.lineEdit_3.setAccessibleName(_translate("Dialog", "phoneNo"))
         self.lineEdit_4.setAccessibleName(_translate("Dialog", "teamNo"))
-
 
 if __name__ == "__main__":
     import sys

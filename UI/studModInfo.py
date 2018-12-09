@@ -1,14 +1,18 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 '''
-최초작성자 : 이영찬
-최초작성일 : 2018.11.29
-최초변경일 :
-목적 : 학생의 정보 수정 인터페이스
-개정이력:
+- 최초작성자 : 이영찬
+- 최초작성일 : 2018.11.29
+- 최초변경일 : 2018.12.06
+- 목적 : 학생의 정보 수정 인터페이스
+- 개정이력 : 이영찬, 2018.12.06
 '''
 
 class view_studModInfo(object):
+    def __init__(self, stud):
+        self.__dialog = None
+        self.owner = stud
+
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
         Dialog.resize(413, 303)
@@ -73,14 +77,18 @@ class view_studModInfo(object):
         self.label.setAlignment(QtCore.Qt.AlignCenter)
         self.label.setObjectName("label")
 
-        name = self.lineEdit.text()
-        phoneNo = self.lineEdit_2.text()
-
         self.retranslateUi(Dialog)
         #확인버튼 클릭 시 학생의 정보 수정 함수를 호출
-        self.pushButton.clicked.connect(Student.modMyInform(name, phoneNo))
-        self.pushButton_2.clicked.connect(Dialog.reject)
+        self.pushButton.clicked.connect(self.okayButtonClicked)
+        self.pushButton_2.clicked.connect(Dialog.close)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
+
+    #목적 : 확인 버튼 클릭 시 입력 된 정보를 바탕으로 정보를 수정하는 메서드를 호출
+    def okayButtonClicked(self):
+        print("확인 버튼")
+        name = self.lineEdit.text()
+        phoneNo = self.lineEdit_2.text()
+        self.owner.modMyInform(name, phoneNo)
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate

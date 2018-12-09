@@ -1,6 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from UI import profMakeBang
-from pyqt5plus import *
 import InitializeManager
 import os, sys
 
@@ -24,6 +23,7 @@ class view_EnterBang(QtWidgets.QDialog):
         Dialog.setObjectName("Title")
         Dialog.resize(402, 550)
         self.verticalLayout = QtWidgets.QVBoxLayout(Dialog)
+
         self.verticalLayout.setObjectName("verticalLayout")
         self.label = QtWidgets.QLabel(Dialog)
         font = QtGui.QFont()
@@ -64,7 +64,6 @@ class view_EnterBang(QtWidgets.QDialog):
         self.verticalLayout.addLayout(self.horizontalLayout_2)
         self.retranslateUi(Dialog)
         self.__dialog = Dialog
-
         self.setTableWidgetData()
         # 추가 버튼 입력시 새로운 윈도우를 뛰워야 함.
         self.pushButton.clicked.connect(self.addButtonClicked)
@@ -75,14 +74,13 @@ class view_EnterBang(QtWidgets.QDialog):
 
     def setTableWidgetData(self):
         list = self.list
-
         for row in range(len(list)):
             item = QtWidgets.QTableWidgetItem(str(self.index[row]))
             self.tableWidget.setItem(row, 0, item)
             item = QtWidgets.QTableWidgetItem(list[row].getSubjName())
             self.tableWidget.setItem(row, 1, item)
             self.tableWidget.setSortingEnabled(True)
-            item.setTextAlignment(QtCore.Qt.AlignRight)
+            item.setTextAlignment(QtCore.Qt.AlignVCenter | QtCore.Qt.AlignRight)
 
         self.tableWidget.resizeColumnsToContents()
         self.tableWidget.resizeRowsToContents()
@@ -91,7 +89,7 @@ class view_EnterBang(QtWidgets.QDialog):
         dialog = QtWidgets.QDialog()
         ui = profMakeBang.view_makebang(self.owner)
         ui.setupUi(dialog)
-        dialog.show()
+        dialog.exec()
 
     #목적 : 변동된 리스트 정보를 띄운다.
     def updateList(self, list):

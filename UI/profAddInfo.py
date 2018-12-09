@@ -1,12 +1,16 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
+from UI import ErrorMessage, profMainWindow
 '''
 최초작성자 : 이영찬
 최초작성일 : 2018.11.29
-최초변경일 :
+최초변경일 : 2018.12.06
 목적 : 교수의 학생 추가시 제공할 인터페이스 구현
-개정 이력 :
+개정 이력 : 이영찬, 2018.12.06
 '''
 class view_profAddInfo(object):
+    def __init__(self, prof):
+        self. owner = prof
+
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
         Dialog.resize(401, 306)
@@ -75,24 +79,29 @@ class view_profAddInfo(object):
         self.verticalLayout_2.addWidget(self.lineEdit_3)
         self.horizontalLayout_2.addLayout(self.verticalLayout_2)
 
-        id = self.lineEdit.text()
-        name = self.lineEdit_2.text()
-        phoneNo = self.lineEdit_3.text()
-
         self.retranslateUi(Dialog)
-        self.pushButton.clicked.connect(self.okayButtonClicked(id, name, phoneNo))
-        self.pushButton_2.clicked.connect(Dialog.reject)
+        self.pushButton.clicked.connect(self.okayButtonClicked)
+        self.pushButton_2.clicked.connect(self.cancelButtonClicked)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
     # 목적 : 확인버튼 클릭 시 학생을 추가하는 메서드 호출
-    def okayButtonClicked(self, id, name, phoneNo):
+    def okayButtonClicked(self):
+        id = self.lineEdit.text()
+        name = self.lineEdit_2.text()
+        phoneNo = self.lineEdit_3.text()
         # 학번 혹은 이름 미입력시 에러메시지 출력
+        print("확인 버튼")
         if id == None or name == None or phoneNo == None:
-            window = view_Errormsg()
-            window.setMessage("정보를 모두 입력해주십시오")
-            window.show()
+            dialog = QtWidgets.QDialog()
+            ui = ErrorMessage.view_ErrorMsg()
+            ui.setupUi(dialog)
+            dialog.setMessage("정보를 모두 입력해주십시오")
+            dialog.show()
         else:
-            professor.inputStud(id, name, phoneNo)
+            self.owner.inputStud(id, name, phoneNo)
+
+    def cancelButtonClicked(self):
+        self.Dialog.close()
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
