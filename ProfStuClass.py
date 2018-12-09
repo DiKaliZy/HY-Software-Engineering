@@ -19,12 +19,12 @@ class Professor:
     #매개변수 : 방 번호
     def enterBang(self, bangIndex):
         self.bang = self.initializer.getBang(bangIndex,self.id,self.display)
-        print(self.bang)
+        print("교수 방 입장 확인" , self.bang)
 
     #목적 : 학생 명단 제외
     #매개변수 : 학생 학번
     def deleteStud(self, id):
-        self.bang.delete(id)
+        self.bang.delete(id, self.id)
     #목적 : 학생 정보 추가
     #매개변수 : 학생번호, 학생이름, 학생번호
     def inputStud(self, studNo, studName, studPhone):
@@ -39,7 +39,7 @@ class Professor:
     #목적 : 팀 생성 가능 조건 설정
     #매개변수 : 없음
     def switchOper(self):
-        self.bang.swithOnOff()
+        self.bang.switchOnOff(self.id)
 
     #목적 : 팀 구성 인원 설정
     #매개변수 : 설정할 인원 수

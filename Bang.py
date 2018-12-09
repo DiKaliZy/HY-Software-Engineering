@@ -18,6 +18,7 @@ class Bang:
     logInQ = []
     switchStat = False
     displayObj = {}
+    stdlist = []
 
     def __init__(self, bangNo, bangOwnerID, subjName, inputList):
         self.bangNo = bangNo
@@ -55,9 +56,12 @@ class Bang:
     def delete(self,id, me):
         if id in self.studentInfoList:
             del self.studentInfoList[id]
+            disp = self.__ordering()
+            for dis in self.displayObj:
+                self.displayObj[dis].refreshBang(disp)
         else:
             #return을 넣어 오류 발생을 알리던지 함수에서 실행자 정보를 받아 display로 오류를 바로 보내던지
-            self.displayObj[id].messageSend()
+            self.displayObj[me].messageSend()
             #오류(존재하지 않는 학생)
 
     """
@@ -128,7 +132,7 @@ class Bang:
         """
     def switchOnOff(self, me):
         self.switchStat = self.teamorg.setSwitch()
-        self.displayObj[me].refreshBang()
+        self.displayObj[me].refreshBang(self.stdlist,self.switchStat)
     """
         - 목적 : 팀 구성 limit 설정
         - 매개변수 : limit(제한 인원 수): Integer
@@ -183,7 +187,6 @@ class Bang:
             if id in self.studentInfoList:
                 for message in self.studentInfoList[id].messages:
                     self.sendMessage(message.message, id, message.froms)
-            print("감각이")
             self.displayObj[id].openView("ProfMain")
 
 
@@ -301,25 +304,24 @@ class Bang:
         - 변경 이력 : 박근태, 2018.12.05
         """
     def __ordering(self):
-        stdlist = []
         for id in self.studentInfoList:
-            stdlist.append(self.studentInfoList[id])
+            self.stdlist.append(self.studentInfoList[id])
         #정렬
         i = 0
-        lowest = stdlist[0]
+        lowest = self.stdlist[0]
         while True:
-            for a in range(i,len(stdlist)):
-                if lowest.studentTeamNo > stdlist[a].studentTeamNo:
-                    lowest = stdlist[a]
-                    stdlist[a] = stdlist[i]
-                    stdlist[i] = lowest
-                    lowest = stdlist[i+1]
+            for a in range(i,len(self.stdlist)):
+                if lowest.studentTeamNo > self.stdlist[a].studentTeamNo:
+                    lowest = self.stdlist[a]
+                    self.stdlist[a] = self.stdlist[i]
+                    self.stdlist[i] = lowest
+                    lowest = self.stdlist[i+1]
             i += 1
-            if i >= len(stdlist):
+            if i >= len(self.stdlist):
                 break
-        for i in range(len(stdlist)):
-            print(stdlist[i].studentName, " / ", stdlist[i].studentTeamNo)
-        return stdlist
+        for i in range(len(self.stdlist)):
+            print(self.stdlist[i].studentName, " / ", self.stdlist[i].studentTeamNo)
+        return self.stdlist
 
 """
 - 최초 작성자 : 박근태
