@@ -116,6 +116,8 @@ class view_EnterBang(QtWidgets.QDialog):
         print("더블클릭 인식")
         idx = self.tableWidget.currentRow()
         idx = self.index[idx]
+        if type(idx) == type("dhkd"):
+            idx = int(idx)
         self.owner.enterBang(idx)
         self.__dialog.close()
 
