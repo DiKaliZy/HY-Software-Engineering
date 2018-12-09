@@ -9,10 +9,10 @@ import Bang
 """
 
 class InitializeManager:
-    bang = {}
-    prof = {}
 
     def __init__(self,profListfile):
+        self.bang = {}
+        self.prof = {}
         self.__listInitialize(profListfile)
 
     """
@@ -21,7 +21,8 @@ class InitializeManager:
         - 반환 값 : 없음
         - 변경 이력 : 박근태, 2018.12.05
         """
-    def makeNew(self, file, bangName, who):
+    def makeNew(self, file, bangName, who, disobj):
+        print("makenew")
         f = open(file, "r", encoding="utf-8-sig")
         teamNo = 1
         #읽은 파일을 변환
@@ -42,13 +43,10 @@ class InitializeManager:
             inputList = [data[0], data[1], data[2], str(teamNo), str(teamNo)]
             inputs.append(inputList)
             teamNo += 1
-        print(inputs)
-        print(bangNo)
-        print(bangOwnerID)
-        print(subjName)
-        bang = Bang.Bang(bangNo, bangOwnerID, subjName, inputs)
-        self.bang[bangNo] = bang
-        self.__saveList(bang)
+        nbang = Bang.Bang(str(bangNo), bangOwnerID, subjName, inputs)
+        print(nbang.studentInfoList)
+        self.bang[bangNo] = nbang
+        self.saveList(disobj)
 
     """
         - 목적 : 객체 초기화
@@ -80,13 +78,13 @@ class InitializeManager:
             bangOwnerID = bangOwnerID.strip('\n')
             subjName = bf.readline()
             subjName = subjName.strip('\n')
+            inputList = []
             while True:
                 be = bf.readline()
                 if not be:
                     break
                 be = be.split()
                 inputList.append(be)
-            print(inputList)
             bang = Bang.Bang(bangNo,bangOwnerID,subjName,inputList)
             bangNo = int(bangNo)
             self.bang[bangNo] = bang
@@ -150,15 +148,21 @@ class InitializeManager:
         - 반환 값 : 없음
         - 변경 이력 : 박근태, 2018.12.05 
         """
-    def __saveList(self,bangentry):
+    def saveList(self,disobj):
         f = open("Bang List.txt", "w", encoding="utf-8-sig")
-        print(self.bang)
         for bang in self.bang:
-            writeString = "bang" + bang + ".txt\n"
-            print(writeString)
+            writeString = str(bang) + " bang" + str(bang) + ".txt\n"
             f.write(writeString)
+            self.bang[bang].save(0)
         f.close()
-        bangentry.save(0)
+        bangs = []
+        bangi = []
+        for bange in self.bang:
+            print("wer",str(bange))
+            bangi.append(str(bange))
+            bangs.append(self.bang[bange])
+        disobj.refreshBangList(bangs, bangi)
+
 
     """
         - 목적 : 방 리스트 전달

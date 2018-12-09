@@ -173,7 +173,6 @@ class view_ProfMainWindow(object):
 
         self.tableWidget.resizeColumnsToContents()
         self.tableWidget.resizeRowsToContents()
-        print(str(self.state))
         self.label.setText("state : " + str(self.state))
 
     def retranslateUi(self, MainWindow):

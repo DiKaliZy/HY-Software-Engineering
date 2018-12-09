@@ -11,16 +11,17 @@ import operator
 """
 
 class Bang:
-    bangNo = 0
-    studentInfoList = {}
-    bangOwnerID = 0
-    subjName = ""
-    logInQ = []
-    switchStat = False
-    displayObj = {}
-    stdlist = []
+
 
     def __init__(self, bangNo, bangOwnerID, subjName, inputList):
+        self.bangNo = 0
+        self.studentInfoList = {}
+        self.bangOwnerID = 0
+        self.subjName = ""
+        self.logInQ = []
+        self.switchStat = False
+        self.displayObj = {}
+        self.stdlist = []
         self.bangNo = bangNo
         self.bangOwnerID = bangOwnerID
         self.subjName = subjName
@@ -292,6 +293,7 @@ class Bang:
         - 변경 이력 : 박근태, 2018.12.05
         """
     def save(self, me):
+        print(self.bangNo)
         filename = "bang" + self.bangNo + ".txt"
         f = open(filename,'w', encoding='utf-8-sig')
         f.writelines(self.bangNo + '\n')

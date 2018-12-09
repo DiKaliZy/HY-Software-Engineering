@@ -10,10 +10,10 @@ import Bang, InitializeManager, TeamOrganizer
 class Professor:
     #목적 : 교수 인스턴스 생성
     #매개변수 : 교수 리스트로부터 받은 id
-    def __init__(self, id, display, IMobj):
+    def __init__(self, id, display, IMob):
         self.id = id
         self.display = display
-        self.initializer = IMobj
+        self.initializer = IMob
 
     #목적 : 교수 방 입장
     #매개변수 : 방 번호
@@ -50,7 +50,7 @@ class Professor:
     #목적 : 방 생성
     #매개변수 : 방 DB, 방 이름
     def makeBang(self, file, name):
-        self.initializer.makeNew(file, name, self.id)
+        self.initializer.makeNew(file, name, self.id, self.display)
 
 
     #목적 : 시스템 로그아웃

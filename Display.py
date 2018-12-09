@@ -24,11 +24,12 @@ class Display:
     profAdd = None
     makeBang = None
     teamSet = None
-    bangList = []
-    bangIndex = []
+
     me = None
 
     def __init__(self, client):
+        self.bangList = []
+        self.bangIndex = []
         self.login = login.view_Login(client)
 
     def giveRef(self, whoRU, role):
@@ -62,7 +63,8 @@ class Display:
                 self.profBang = profEnterBang.view_EnterBang(self.bangList,self.bangIndex,self.me)
                 self.Dialog = QtWidgets.QDialog()
             else:
-                self.profBang.updateList(self.bangList,self.bangIndex)
+                self.profBang.updateList(self.bangList, self.bangIndex)
+                self.Dialog = QtWidgets.QDialog()
             self.ui = self.profBang
             self.ui.setupUi(self.Dialog)
             self.Dialog.show()

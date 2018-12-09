@@ -28,6 +28,7 @@ class Client:
             if isRight == 0:
                 self.display.closeView("Login")
                 #생성자 변동 -> self.display를 parameter로 받음 추가
+
                 ProfStuClass.Student(id, bang, self.display, self.obj)
             elif isRight == 1:
                 self.display.messageSend(110, 0)

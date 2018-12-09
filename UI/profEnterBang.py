@@ -63,11 +63,13 @@ class view_EnterBang(QtWidgets.QDialog):
         self.verticalLayout.addLayout(self.horizontalLayout_2)
         self.retranslateUi(Dialog)
         self.__dialog = Dialog
+
         if self.isnew == True:
             self.setTableWidgetData()
             self.isnew = False
         else:
             self.refreshList()
+
         # 추가 버튼 입력시 새로운 윈도우를 뛰워야 함.
         self.pushButton.clicked.connect(self.addButtonClicked)
         self.pushButton_2.clicked.connect(self.enterButtonClicked)
@@ -100,17 +102,18 @@ class view_EnterBang(QtWidgets.QDialog):
 
     def refreshList(self):
         for row in range(len(self.list)):
-            item = QtWidgets.QTableWidgetItem(self.index[row])
+            item = QtWidgets.QTableWidgetItem(str(self.index[row]))
             self.tableWidget.setItem(row, 0, item)
-            item = QtWidgets.QTableWidgetItem(self.list[row])
+            item = QtWidgets.QTableWidgetItem(self.list[row].getSubjName())
             self.tableWidget.setItem(row, 1, item)
             self.tableWidget.setSortingEnabled(True)
-            item.setTextAlignment(QtCore.Qt.AlignVcenter | QtCore.Qt.AlignRight)
+            item.setTextAlignment(QtCore.Qt.AlignVCenter | QtCore.Qt.AlignRight)
 
         self.tableWidget.resizeColumnsToContents()
         self.tableWidget.resizeRowsToContents()
 
     def doubleButtonClicked(self):
+        print("더블클릭 인식")
         idx = self.tableWidget.currentRow()
         idx = self.index[idx]
         self.owner.enterBang(idx)
