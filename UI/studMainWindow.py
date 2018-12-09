@@ -75,6 +75,7 @@ class view_studMainWindow(object):
         print("테이블 정보 입력")
         for row in range(len(self.list)):
             item = QtWidgets.QTableWidgetItem(self.list[row].studentName)
+            print(self.list[row].studentName)
             self.tableWidget.setItem(row, 0, item)
             item = QtWidgets.QTableWidgetItem(self.list[row].studentPhone)
             self.tableWidget.setItem(row, 1, item)
@@ -115,11 +116,11 @@ class view_studMainWindow(object):
 
     def refreshList(self):
         for row in range(len(self.list)):
-            item = QtWidgets.QTableWidgetItem(self.list[row].studentNo)
-            self.tableWidget.setItem(row, 0, item)
             item = QtWidgets.QTableWidgetItem(self.list[row].studentName)
-            self.tableWidget.setItem(row, 1, item)
+            self.tableWidget.setItem(row, 0, item)
             item = QtWidgets.QTableWidgetItem(self.list[row].studentPhone)
+            self.tableWidget.setItem(row, 1, item)
+            item = QtWidgets.QTableWidgetItem(self.list[row].studentTeamNo)
             self.tableWidget.setItem(row, 2, item)
             self.tableWidget.setSortingEnabled(True)
             item.setTextAlignment(QtCore.Qt.AlignVCenter | QtCore.Qt.AlignRight)

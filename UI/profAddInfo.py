@@ -1,5 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from UI import ErrorMessage, profMainWindow
+from UI import ErrorMessage
 '''
 최초작성자 : 이영찬
 최초작성일 : 2018.11.29
@@ -93,11 +93,13 @@ class view_profAddInfo(object):
         phoneNo = self.lineEdit_3.text()
         # 학번 혹은 이름 미입력시 에러메시지 출력
         print("확인 버튼")
-        if id == None or name == None or phoneNo == None:
+
+        if self.lineEdit.text() == "" or self.lineEdit_2.text() == "" or self.lineEdit_3.text() == "":
             dialog = QtWidgets.QDialog()
             ui = ErrorMessage.view_ErrorMsg()
             ui.setupUi(dialog)
-            dialog.setMessage("정보를 모두 입력해주십시오")
+            print("eeee")
+            ui.label.setText("정보를 모두 입력해주십시오")
             dialog.exec()
         else:
             self.owner.inputStud(id, name, phoneNo)

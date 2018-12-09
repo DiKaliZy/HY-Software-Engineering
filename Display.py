@@ -43,19 +43,19 @@ class Display:
         if self.error == None:
             self.error = ErrorMessage.view_ErrorMsg()
         dialog = QtWidgets.QDialog()
-        self.ui = self.error
-        self.ui.setupUi(dialog)
+        ui = self.error
+        ui.setupUi(dialog)
         if message == 110:
-            self.ui.label.setText("입력한 이름과 학번이 일치하지 않습니다.")
+            ui.label.setText("입력한 이름과 학번이 일치하지 않습니다.")
         elif message == 111:
-            self.ui.label.setText("등록되지 않은 이름입니다.")
+            ui.label.setText("등록되지 않은 이름입니다.")
         elif message == 112:
-            self.ui.label.setText("존재하지 않는 방입니다.")
+            ui.label.setText("존재하지 않는 방입니다.")
         elif message == 1000:
-            self.ui.label.setText("저장 완료!")
+            ui.label.setText("저장 완료!")
         else:
-            self.ui.label.setText("아직 정의되지 않은 에러.")
-        dialog.show()
+            ui.label.setText("아직 정의되지 않은 에러.")
+        dialog.exec()
 
     def openView(self, name):
         if name == "LogIn":
@@ -65,7 +65,6 @@ class Display:
             self.Dialog.show()
 
         elif name == "StudMain":
-            print("wwww")
             if self.studMain == None:
                 self.studMain = studMainWindow.view_studMainWindow(self.stdList,self.me,self.switch)
                 self.Main = QtWidgets.QMainWindow()
