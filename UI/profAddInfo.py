@@ -80,8 +80,8 @@ class view_profAddInfo(object):
         self.horizontalLayout_2.addLayout(self.verticalLayout_2)
 
         self.retranslateUi(Dialog)
-        self.pushButton.clicked.connect(self.okayButtonClicked())
-        self.pushButton_2.clicked.connect(self.cancelButtonClicked())
+        self.pushButton.clicked.connect(self.okayButtonClicked)
+        self.pushButton_2.clicked.connect(self.cancelButtonClicked)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
     # 목적 : 확인버튼 클릭 시 학생을 추가하는 메서드 호출
