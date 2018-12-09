@@ -1,6 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from UI import profModeInfo, TeamSetting, profAddInfo
-import Display, Bang
+
 '''
 최초작성자 : 이영찬
 최초작성일 : 2018.11.29
@@ -121,32 +121,36 @@ class view_ProfMainWindow(object):
         ui.setupUi(dialog)
         dialog.exec()
 
-    #목적 : 팀 조건을 바꾸기 위해 팀 조건 설정 인터페이스를 띄우도록 요청한다.
+    #목적 : 팀을 지정 인원수에 맞추어 랜덤하게 구성한다.
     def setButtonClicked(self):
-        print("세팅 버튼")
+        print("randomization 버튼")
         dialog = QtWidgets.QDialog()
         ui = TeamSetting.view_TeamSetting(self.owner)
         ui.setupUi(dialog)
         dialog.exec()
 
-    #목적 : 팀 구성 가능 여부를 바꾼다.
+    #목적 : 테이블 저장
     def switButtonClicked(self):
-        print("스위치 버튼")
-        self.owner.switchOper()
+        print("save 버튼")
+        self.owner.saveOper()
 
     #목적 : 학생 정보를 수정하기 위한 인터페이스를 띄우도록 요청한다.
     def modButtonClicked(self):
         print("수정 버튼")
+        idx = self.tableWidget.currentRow()
+
         dialog = QtWidgets.QDialog()
-        ui = profModeInfo.view_profModInfo(self.owner)
+        ui = profModeInfo.view_profModInfo(self.owner,self.list[idx].studentNo,self.list[idx].studentName,\
+                                            self.list[idx].studentPhone,self.list[idx].studentTeamNo)
         ui.setupUi(dialog)
-        dialog.show()
+        dialog.exec()
 
     #목적 : 학생 정보를 삭제하기 위한 인터페이스를 띄우도록 요청한다.
     def delButtonClicked(self):
         print("삭제 버튼")
-        idx = self.tableWidget.curruntRow()
-        self.owner.deleteStud(idx)
+        idx = self.tableWidget.currentRow()
+        id = self.list[int(idx)].studentNo
+        self.owner.deleteStud(id)
 
     #변동 내용 전달
     def updateList(self, list, state):
@@ -185,11 +189,11 @@ class view_ProfMainWindow(object):
         item = self.tableWidget.horizontalHeaderItem(3)
         item.setText(_translate("MainWindow", "팀번호"))
         self.pushButton_3.setAccessibleName(_translate("MainWindow", "switch_button"))
-        self.pushButton_3.setText(_translate("MainWindow", "ON/OFF"))
+        self.pushButton_3.setText(_translate("MainWindow", "Save"))
         self.pushButton.setAccessibleName(_translate("MainWindow", "add_Button"))
         self.pushButton.setText(_translate("MainWindow", "추가"))
         self.pushButton_2.setAccessibleName(_translate("MainWindow", "set_Button"))
-        self.pushButton_2.setText(_translate("MainWindow", "설정"))
+        self.pushButton_2.setText(_translate("MainWindow", "랜덤생성"))
         self.pushButton_4.setAccessibleName(_translate("MainWindow", "ModButton"))
         self.pushButton_4.setText(_translate("MainWindow", "수정"))
         self.pushButton_5.setAccessibleName(_translate("MainWindow", "delButton"))

@@ -79,6 +79,8 @@ class view_profAddInfo(object):
         self.verticalLayout_2.addWidget(self.lineEdit_3)
         self.horizontalLayout_2.addLayout(self.verticalLayout_2)
 
+        self.__dialog = Dialog
+
         self.retranslateUi(Dialog)
         self.pushButton.clicked.connect(self.okayButtonClicked)
         self.pushButton_2.clicked.connect(self.cancelButtonClicked)
@@ -96,12 +98,13 @@ class view_profAddInfo(object):
             ui = ErrorMessage.view_ErrorMsg()
             ui.setupUi(dialog)
             dialog.setMessage("정보를 모두 입력해주십시오")
-            dialog.show()
+            dialog.exec()
         else:
             self.owner.inputStud(id, name, phoneNo)
+            self.__dialog.close()
 
     def cancelButtonClicked(self):
-        self.Dialog.close()
+        self.__dialog.close()
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate

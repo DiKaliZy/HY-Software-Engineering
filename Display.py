@@ -49,7 +49,14 @@ class Display:
             self.Dialog.show()
 
         elif name == "StudMain":
-            ...
+            if self.studMain == None:
+                self.studMain = studMainWindow.view_studMainWindow(self.stdList,self.me,self.switch)
+                self.Main = QtWidgets.QMainWindow()
+            else:
+                self.studMain.updateList(self.stdList,self.switch)
+            self.ui = self.studMain
+            self.ui.setupUi(self.Main)
+            self.Main.show()
         elif name == "ProfBangList":
             if self.profBang == None:
                 self.profBang = profEnterBang.view_EnterBang(self.bangList,self.bangIndex,self.me)
@@ -83,10 +90,11 @@ class Display:
     def refreshBang(self, student, switchStat):
         self.stdList = student
         self.switch = switchStat
-        if self.me == "Student":
+        if self.role == "Student":
             self.openView("StudMain")
         else:
             self.openView("ProfMain")
+
     def getDisplayOwnerID(self):
         print("message is ")
     def __refreshView(self, view):

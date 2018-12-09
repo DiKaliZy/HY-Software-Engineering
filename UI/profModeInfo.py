@@ -9,9 +9,12 @@ from UI import ErrorMessage
 '''
 
 class view_profModInfo(object):
-    def __init__(self, prof):
+    def __init__(self, prof, id, name, phone, team):
         self.owner = prof
-        self.__dialog = Dialog
+        self.id = id
+        self.name = name
+        self.phone = phone
+        self.team = team
 
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
@@ -93,6 +96,13 @@ class view_profModInfo(object):
         self.verticalLayout_2.addWidget(self.lineEdit_4)
         self.horizontalLayout_2.addLayout(self.verticalLayout_2)
 
+        self.__dialog = Dialog
+
+        self.lineEdit.setText(self.id)
+        self.lineEdit_2.setText(self.name)
+        self.lineEdit_3.setText(self.phone)
+        self.lineEdit_4.setText(self.team)
+
         self.retranslateUi(Dialog)
         #확인 버튼 클릭 시 정보수정 함수 호출
         self.pushButton.clicked.connect(self.okayButtonClicked)
@@ -102,20 +112,20 @@ class view_profModInfo(object):
     #목적 : 확인 버튼 클릭 시 입력된 정보를 바탕으로 정보 수정 메서드를 호출한다.
     def okayButtonClicked(self):
         print("확인 버튼")
-        id = int(self.lineEdit.text())
-        name = self.lineEdit_2.text()
-        phoneNo = int(self.lineEdit_3.text())
-        teamNo = int(self.lineEdit_4.text())
 
-        if id == None or name == None or phoneNo == None or teamNo == None :
+        if self.lineEdit.text() == "" or self.lineEdit_2.text() == "" \
+                or self.lineEdit_3.text() == "" or self.lineEdit_4.text() == "" :
             dialog = QtWidgets.QDialog()
             ui = ErrorMessage.view_ErrorMsg()
             ui.setupUi(dialog)
             ui.label.setText("수정 정보를 모두 입력해주시기 바랍니다")
-            dialog.show()
+            dialog.exec()
         else:
-            self.owner.modStudInform(id, name, phoneNo, teamNo)
-        self.__dialog.close()
+            name = self.lineEdit_2.text()
+            phoneNo = self.lineEdit_3.text()
+            teamNo = int(self.lineEdit_4.text())
+            self.owner.modStudInform(self.id, name, phoneNo, teamNo)
+            self.__dialog.close()
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
@@ -133,9 +143,17 @@ class view_profModInfo(object):
 
 if __name__ == "__main__":
     import sys
+    import os
+
+    mypath = os.path.dirname(sys.executable) + "\Lib\site-packages\PyQt5\Qt\plugins"
+    libpaths = QtWidgets.QApplication.libraryPaths()
+    libpaths.append(mypath)
+    QtWidgets.QApplication.setLibraryPaths(libpaths)
+
+
     app = QtWidgets.QApplication(sys.argv)
     Dialog = QtWidgets.QDialog()
-    ui = view_profModInfo()
+    ui = view_profModInfo("A")
     ui.setupUi(Dialog)
     Dialog.show()
     sys.exit(app.exec_())

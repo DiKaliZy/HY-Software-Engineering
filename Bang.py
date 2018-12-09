@@ -24,7 +24,7 @@ class Bang:
         self.bangNo = bangNo
         self.bangOwnerID = bangOwnerID
         self.subjName = subjName
-        self.teamorg = TeamOrganizer.TeamOrganizer(self)
+        #self.teamorg = TeamOrganizer.TeamOrganizer(self)
         for input in inputList:
             stud = StudentInfo(input[0],input[1],input[2],input[3],input[4])
             self.studentInfoList[input[0]] = stud
@@ -56,9 +56,9 @@ class Bang:
     def delete(self,id, me):
         if id in self.studentInfoList:
             del self.studentInfoList[id]
-            disp = self.__ordering()
+            self.__ordering()
             for dis in self.displayObj:
-                self.displayObj[dis].refreshBang(disp)
+                self.displayObj[dis].refreshBang(self.stdlist,self.switchStat)
         else:
             #return을 넣어 오류 발생을 알리던지 함수에서 실행자 정보를 받아 display로 오류를 바로 보내던지
             self.displayObj[me].messageSend()
@@ -77,17 +77,18 @@ class Bang:
         else:
             highVal = 0
             for id in self.studentInfoList:
-                if highVal < self.studentInfoList[id].studentUniqueNo:
-                    highVal = self.studentInfoList[id].studentUniqueNo
+                if highVal < int(self.studentInfoList[id].studentTeamNo):
+                    highVal = int(self.studentInfoList[id].studentTeamNo)
             newUniqueVal = highVal + 1
+            newUniqueVal = str(newUniqueVal)
             newStd = StudentInfo(studNo,studName,studPhone,newUniqueVal,newUniqueVal)
             self.studentInfoList[studNo] = newStd
-            disp = self.__ordering()
+            self.__ordering()
             for dis in self.displayObj:
-                self.displayObj[dis].refreshBang(disp)
-            self.teamorg.removeTeam()
-            for id in self.studentInfoList:
-                self.teamorg.loadTeam(self.studentInfoList)
+                self.displayObj[dis].refreshBang(self.stdlist,self.switchStat)
+            #self.teamorg.removeTeam()
+            #for id in self.studentInfoList:
+            #    self.teamorg.loadTeam(self.studentInfoList)
 
     """
         - 목적 : 정보 수정
@@ -96,18 +97,22 @@ class Bang:
         - 변경 이력 : 박근태, 2018.12.05
         """
     def updateList(self,studNo, studName, studPhone, studTeamNo, me):
+        print(type(studNo))
         if not (studNo in self.studentInfoList):
             # return을 넣어 오류 발생을 알리던지 함수에서 실행자 정보를 받아 display로 오류를 바로 보내던지
             #오류(등록 되지 않은 학생)
             self.displayObj[me].messageSend()
         else:
-            self.studentInfoList[studNo].studentName = studName
-            self.studentInfoList[studNo].studentPhone = studPhone
-            if studTeamNo >= 1:
-                self.studentInfoList[studNo] = studTeamNo
-            disp = self.__ordering()
-            for dis in self.displayObj:
-                self.displayObj[dis].refreshBang(disp)
+                self.studentInfoList[studNo].studentName = studName
+                self.studentInfoList[studNo].studentPhone = studPhone
+                if studTeamNo >= 1:
+                    self.studentInfoList[studNo].studentTeamNo = str(studTeamNo)
+                elif studTeamNo == -1:
+                    # 학생이 정보 수정
+                    self.save(me)
+                self.__ordering()
+                for dis in self.displayObj:
+                    self.displayObj[dis].refreshBang(self.stdlist, self.switchStat)
 
     """
         - 목적 : 학생 팀 정보 변경
@@ -120,9 +125,9 @@ class Bang:
             self.studentInfoList[studNo].studentTeamNo = studTeamNo
         else:
             self.studentInfoList[studNo].studentTeamNo = self.studentInfoList[studNo].studentUniqueNo
-        disp = self.__ordering()
+        self.__ordering()
         for dis in self.displayObj:
-            self.displayObj[dis].refreshBang(disp)
+            self.displayObj[dis].refreshBang(self.stdlist)
 
     """
         - 목적 : 팀 구성 on/off 및 현재 switch상태 확인
@@ -139,9 +144,12 @@ class Bang:
         - 반환 값 : 없음
         - 변경 이력 : 박근태, 2018.12.05
         """
-    def setLimit(self,limit, me):
-        self.teamorg.setLimit(limit, me)
-
+    def setLimit(self, limit, me):
+        self.limit = limit
+        self.randomTeamMake()
+        self.__ordering()
+        for dis in self.displayObj:
+            self.displayObj[dis].refreshBang(self.stdlist, self.switchStat)
     """
         - 목적 : 학생 정보 List 반환
         - 매개변수 : 없음
@@ -182,12 +190,12 @@ class Bang:
         else:
             self.displayObj[id] = display
             self.logInQ.append(id)
-            disp = self.__ordering()
-            self.displayObj[id].refreshBang(disp, self.switchStat)
+            self.__ordering()
             if id in self.studentInfoList:
                 for message in self.studentInfoList[id].messages:
                     self.sendMessage(message.message, id, message.froms)
-            self.displayObj[id].openView("ProfMain")
+            self.displayObj[id].refreshBang(self.stdlist, self.switchStat)
+
 
 
     """
@@ -204,7 +212,7 @@ class Bang:
             del self.displayObj[id]
             self.logInQ.pop(id)
             if len(self.logInQ) <= 0:
-                self.__save()
+                self.save()
 
     """
         - 목적 : 대상에게 메세지 보내기
@@ -239,33 +247,33 @@ class Bang:
         - 변경 이력 : 박근태, 2018.12.05
         """
     def randomTeamMake(self):
-        limit = self.teamorg.getLimit()
+        limit = self.limit
         cap = len(self.studentInfoList)
         if cap % limit == 0:
             teamcap = int(cap / limit)
         else:
             teamcap = int(cap / limit) + 1
         tempdict = {}
-        #teamentry = []
-        #팀 번호 랜덤 생성(팀장 랜덤 생성)
-        for i in range(teamcap + 1):
-            while True:
-                rand = random.randrange(1, len(self.studentInfoList) + 1)
-                if not (rand in tempdict):
-                    tempdict[rand] = 1
-                    #teamentry.append(rand)
-                    break
-        #생성된 랜덤 팀에 팀원 배치
-        for id in self.studentInfoList:
-            if not (self.studentInfoList[id].studentTeamNo in tempdict):
-                while True:
-                    tno = random.choice(tempdict)
-                    if tempdict[tno] < limit:
-                        tempdict[tno] = tempdict[tno] + 1
-                        self.studentInfoList[id].studentTeamNo = tno
-                        break
-                if tempdict[tno] == limit:
-                    del tempdict[tno]
+        print(teamcap)
+        templist = []
+        for std in self.studentInfoList:
+            templist.append(self.studentInfoList[std])
+        for i in range(1, teamcap + 1):
+            tempdict[i] = []
+        for i in range(1, teamcap + 1):
+            a = 0
+            while a < self.limit and a < len(templist):
+                rand = random.choice(templist)
+                templist.remove(rand)
+                tempdict[i].append(rand)
+
+                a += 1
+            print(tempdict)
+
+        for list in tempdict:
+            for std in tempdict[list]:
+                self.studentInfoList[std.studentNo].studentTeamNo = str(list)
+
 
     """
         - 목적 : 메세지 덧붙이기
@@ -283,12 +291,12 @@ class Bang:
         - 반환 값 : 없음
         - 변경 이력 : 박근태, 2018.12.05
         """
-    def __save(self):
-        filename = "bang " + self.bangNo + ".txt"
-        f = open(filename,'w')
-        f.writelines(self.bangNo)
-        f.writelines(self.bangOwnerID)
-        f.writelines(self.subjName)
+    def save(self, me):
+        filename = "bang" + self.bangNo + ".txt"
+        f = open(filename,'w', encoding='utf-8-sig')
+        f.writelines(self.bangNo + '\n')
+        f.writelines(self.bangOwnerID + '\n')
+        f.writelines(self.subjName + '\n')
         #학생 정보 list 저장
         for id in self.studentInfoList:
             writestring = self.studentInfoList[id].studentNo + " " + self.studentInfoList[id].studentName\
@@ -304,24 +312,29 @@ class Bang:
         - 변경 이력 : 박근태, 2018.12.05
         """
     def __ordering(self):
+        self.stdlist = []
         for id in self.studentInfoList:
             self.stdlist.append(self.studentInfoList[id])
         #정렬
         i = 0
+        inx = 0
         lowest = self.stdlist[0]
         while True:
             for a in range(i,len(self.stdlist)):
-                if lowest.studentTeamNo > self.stdlist[a].studentTeamNo:
+                if int(lowest.studentTeamNo) > int(self.stdlist[a].studentTeamNo):
                     lowest = self.stdlist[a]
-                    self.stdlist[a] = self.stdlist[i]
-                    self.stdlist[i] = lowest
-                    lowest = self.stdlist[i+1]
+                    inx = a
+            print(i , inx)
+            self.stdlist[inx] = self.stdlist[i]
+            self.stdlist[i] = lowest
+
             i += 1
             if i >= len(self.stdlist):
                 break
+            inx = i
+            lowest = self.stdlist[i]
         for i in range(len(self.stdlist)):
             print(self.stdlist[i].studentName, " / ", self.stdlist[i].studentTeamNo)
-        return self.stdlist
 
 """
 - 최초 작성자 : 박근태

@@ -28,10 +28,7 @@ class Client:
             if isRight == 0:
                 self.display.closeView("Login")
                 #생성자 변동 -> self.display를 parameter로 받음 추가
-                student = ProfStuClass.Student(id, bang, self.display, self.obj)
-                self.me = student
-                self.display.giveRef(self.me,"Student")
-                self.display.openView("StudMain")
+                ProfStuClass.Student(id, bang, self.display, self.obj)
             elif isRight == 1:
                 self.display.messageSend(110, 0)
             elif isRight == 2:
@@ -53,9 +50,8 @@ class Client:
                 for bangs in rawbanglist:
                     banglist.append(bangs[1])
                     bangindex.append(bangs[0])
-                self.display.refreshBangList(bangindex,banglist)
                 self.display.giveRef(self.me, "Professor")
-                self.display.openView("ProfBangList")
+                self.display.refreshBangList(bangindex,banglist)
             elif isRight == 1:
                 self.display.messageSend(110, 0)
             elif isRight == 2:

@@ -81,6 +81,8 @@ class view_makebang(object):
         self.label_3.setObjectName("label_3")
         self.verticalLayout.addWidget(self.label_3)
 
+        self.__dialog = Dialog
+
         self.retranslateUi(Dialog)
         self.pushButton.clicked.connect(self.okayButtonClicked)
         self.pushButton_2.clicked.connect(Dialog.reject)
@@ -91,20 +93,20 @@ class view_makebang(object):
         print("확인 버튼")
         file = self.lineEdit_2.text()
         name = self.lineEdit.text()
-        if file == None or name == None:
+        if file == "" or name == "":
             dialog = QtWidgets.QDialog()
             ui = ErrorMessage.view_ErrorMsg()
             ui.setupUi(dialog)
-            dialog.setMessage("첨부파일 혹은 이름을 모두 입력해주십시오")
-            dialog.show()
+            ui.label.setText("첨부파일 혹은 이름을 모두 입력해주십시오")
+            dialog.exec()
         else:
-            makebang.close()
+            self.__dialog.close()
             self.owner.makeBang(file, name)
 
     #목적 : 방 DB 파일 path를 가져옴
     def findButtonClicked(self):
         print("찾기 버튼")
-        fname = QtWidgets.QFileDialog.getOpenFileName(self)
+        fname = QtWidgets.QFileDialog.getOpenFileName()
         self.lineEdit_2.setText(fname[0])
 
     def retranslateUi(self, Software_Engineering):
@@ -125,10 +127,16 @@ class view_makebang(object):
 
 if __name__ == "__main__":
     import sys
+    import os
+
+    mypath = os.path.dirname(sys.executable) + "\Lib\site-packages\PyQt5\Qt\plugins"
+    libpaths = QtWidgets.QApplication.libraryPaths()
+    libpaths.append(mypath)
+    QtWidgets.QApplication.setLibraryPaths(libpaths)
 
     app = QtWidgets.QApplication(sys.argv)
     makebang = QtWidgets.QDialog()
-    ui = view_makebang()
+    ui = view_makebang('a')
     ui.setupUi(makebang)
     makebang.show()
     sys.exit(app.exec_())

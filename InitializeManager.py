@@ -22,27 +22,33 @@ class InitializeManager:
         - 변경 이력 : 박근태, 2018.12.05
         """
     def makeNew(self, file, bangName, who):
-        f = open(file, "r")
+        f = open(file, "r", encoding="utf-8-sig")
         teamNo = 1
         #읽은 파일을 변환
-        higher = -1
+        higher = 0
         for b in self.bang:
             if higher < b:
                 higher = b
         bangNo = higher + 1
         bangOwnerID = who
         subjName = bangName
+        inputs = []
         while True:
             entry = f.readline()
             if not entry:
                 break
             data = entry.split()
             #studenNo, studentName, studentPhone
-            inputList = [data[0], data[1], data[2], teamNo, teamNo]
+            inputList = [data[0], data[1], data[2], str(teamNo), str(teamNo)]
+            inputs.append(inputList)
             teamNo += 1
-            bang = Bang.Bang(bangNo,bangOwnerID,subjName,inputList)
-            self.bang[bangNo] = bang
-        self.__saveList()
+        print(inputs)
+        print(bangNo)
+        print(bangOwnerID)
+        print(subjName)
+        bang = Bang.Bang(bangNo, bangOwnerID, subjName, inputs)
+        self.bang[bangNo] = bang
+        self.__saveList(bang)
 
     """
         - 목적 : 객체 초기화
@@ -96,10 +102,10 @@ class InitializeManager:
     def studCheck(self,id, name, bang):
         for bangs in self.bang:
             if self.bang[bangs].bangNo == bang:
-                stdlist = bang[bangs].getAll4Display()
+                stdlist = self.bang[bangs].getAll4Display()
                 for std in stdlist:
-                    if std.studentName == name:
-                        if std.studentNo == id:
+                    if stdlist[std].studentName == name:
+                        if stdlist[std].studentNo == id:
                             return 0
                         else:
                             #메세지 보내기 - id 틀림
@@ -134,9 +140,8 @@ class InitializeManager:
         - 반환 값 : 해당 방 객체
         - 변경 이력 : 박근태, 2018.12.05 
         """
-    def getBang(self, bangIndex, id, display):
+    def getBang(self, bangIndex):
         bangobj = self.bang[bangIndex]
-        bangobj.logIn(id, display)
         return bangobj
 
     """
@@ -145,12 +150,15 @@ class InitializeManager:
         - 반환 값 : 없음
         - 변경 이력 : 박근태, 2018.12.05 
         """
-    def __saveList(self):
-        f = open("Bang List.txt","w",encoding="utf-8-sig")
+    def __saveList(self,bangentry):
+        f = open("Bang List.txt", "w", encoding="utf-8-sig")
+        print(self.bang)
         for bang in self.bang:
             writeString = "bang" + bang + ".txt\n"
+            print(writeString)
             f.write(writeString)
         f.close()
+        bangentry.save(0)
 
     """
         - 목적 : 방 리스트 전달

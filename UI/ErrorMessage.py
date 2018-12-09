@@ -12,7 +12,7 @@ from UI import *
 
 class view_ErrorMsg(object):
     def __init__(self):
-        self.__dialog=None
+        self.__dialog = None
 
     def setupUi(self, Dialog):
         Dialog.setObjectName("Error")

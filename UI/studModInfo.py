@@ -77,6 +77,7 @@ class view_studModInfo(object):
         self.label.setAlignment(QtCore.Qt.AlignCenter)
         self.label.setObjectName("label")
 
+        self.__dialog = Dialog
         self.retranslateUi(Dialog)
         #확인버튼 클릭 시 학생의 정보 수정 함수를 호출
         self.pushButton.clicked.connect(self.okayButtonClicked)
@@ -89,27 +90,28 @@ class view_studModInfo(object):
         name = self.lineEdit.text()
         phoneNo = self.lineEdit_2.text()
         self.owner.modMyInform(name, phoneNo)
+        self.__dialog.close()
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "StudfModInfo"))
+        Dialog.setWindowTitle(_translate("Dialog", "Information Mod"))
         self.pushButton.setAccessibleName(_translate("Dialog", "okay_Button"))
         self.pushButton.setText(_translate("Dialog", "확인"))
         self.pushButton_2.setAccessibleName(_translate("Dialog", "cancel_Button"))
         self.pushButton_2.setText(_translate("Dialog", "취소"))
         self.label_2.setText(_translate("Dialog", "이름"))
         self.label_3.setText(_translate("Dialog", "연락처"))
-        self.lineEdit_2.setAccessibleName(_translate("Dialog", "studName"))
-        self.lineEdit_3.setAccessibleName(_translate("Dialog", "phoneNo"))
+        self.lineEdit.setAccessibleName(_translate("Dialog", "studName"))
+        self.lineEdit_2.setAccessibleName(_translate("Dialog", "phoneNo"))
         self.label.setText(_translate("Dialog", "수정할 정보"))
 
 
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    Dialog = QtWidgets.QDialog()
+    Dialogs = QtWidgets.QDialog()
     ui = view_studModInfo()
-    ui.setupUi(Dialog)
-    Dialog.show()
+    ui.setupUi(Dialogs)
+    Dialogs.show()
     sys.exit(app.exec_())
 

@@ -1,4 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
+from UI import ErrorMessage
 
 '''
 - 최초작성자 : 이영찬
@@ -38,18 +39,26 @@ class view_TeamSetting(object):
         self.pushButton_2.setGeometry(QtCore.QRect(190, 120, 75, 23))
         self.pushButton_2.setObjectName("취소")
 
-
+        self.__dialog = Dialog
         self.retranslateUi(Dialog)
         self.pushButton.clicked.connect(self.okayButtonClicked)
-        self.pushButton_2.clicked.connect(self.__dialog.close())
+        self.pushButton_2.clicked.connect(self.__dialog.close)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
     #목적 : 확인 버튼 클릭 시 입력된 값으로 팀 구성 인원을 설정한다.
     def okayButtonClicked(self):
         print("확인 버튼")
         limit = self.spinBox.text()
-        self.owner.setlimit(int(limit))
-        self.__dialog.close()
+        print(limit)
+        if int(limit) <= 0 :
+            dialog = QtWidgets.QDialog()
+            ui = ErrorMessage.view_ErrorMsg()
+            ui.setupUi(dialog)
+            ui.label.setText("팀 인원 제한을 1명 이상으로 해 주십시오.")
+            dialog.exec()
+        else:
+            self.owner.setLimit(int(limit))
+            self.__dialog.close()
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
@@ -61,10 +70,17 @@ class view_TeamSetting(object):
 
 if __name__ == "__main__":
     import sys
+    import os
+
+    mypath = os.path.dirname(sys.executable) + "\Lib\site-packages\PyQt5\Qt\plugins"
+    libpaths = QtWidgets.QApplication.libraryPaths()
+    libpaths.append(mypath)
+    QtWidgets.QApplication.setLibraryPaths(libpaths)
+
     app = QtWidgets.QApplication(sys.argv)
-    Dialog = QtWidgets.QDialog()
-    ui = view_TeamSetting()
-    ui.setupUi(Dialog)
-    Dialog.show()
+    Dialogs = QtWidgets.QDialog()
+    ui = view_TeamSetting('a')
+    ui.setupUi(Dialogs)
+    Dialogs.show()
     sys.exit(app.exec_())
 
